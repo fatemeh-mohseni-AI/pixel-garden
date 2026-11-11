@@ -16,7 +16,7 @@
 
 Pixel Garden is a playful, open-source web experience that transforms **public GitHub repositories** into a personalized, interactive **pixel-art garden**.
 
-Instead of looking at another stats dashboard, enter a GitHub username and watch a tiny garden take shape. Each plant represents a repository, with its appearance inspired by the project's public metadata.
+Instead of another stats dashboard, the **one-page site opens directly into a near-full-screen example garden**. Select **Try Your Own** in the small header to enter a GitHub username or profile link and grow a personal garden. Each public repository becomes a plant. **Up to 10 repositories** live in the default-size garden; with **11 or more**, the landscape extends horizontally so plants stay readable. Explore extra sections with simple scrolling or dragging.
 
 The goal is simple: **make your coding journey something delightful to explore and share.**
 
@@ -36,29 +36,29 @@ These are **creative visual metaphors**, not scores of developer ability or code
 
 The first release will focus on one polished, browser-based experience.
 
-- [ ] Enter a GitHub username to generate a garden.
-- [ ] Fetch the user's **public repositories** via the GitHub REST API.
-- [ ] Select up to **nine repositories** using a consistent, documented rule.
-- [ ] Display each repository as a distinct pixel-art plant.
-- [ ] Open a plant's details by mouse, keyboard, or touch.
-- [ ] Show repository name, language, stars, last update, and GitHub link.
-- [ ] Add gentle animation and respect reduced-motion preferences.
-- [ ] Export the garden as a shareable image.
-- [ ] Deploy the app to **GitHub Pages**.
+- [ ] Open directly into a **mostly full-screen**, clearly labeled example garden.
+- [ ] Use a compact **Try Your Own** button and dialog for a GitHub username or profile link.
+- [ ] Fetch and display public repositories via GitHub REST API (first **100 at most** in MVP).
+- [ ] Display **1–10 repositories in the default garden**; extend contiguous garden sections horizontally for **11–100**.
+- [ ] Let visitors explore extended gardens with simple touch/keyboard scrolling and optional mouse dragging—**no zoom or minimap**.
+- [ ] Display one distinct pixel-art plant per retrieved repository; show details on selection rather than always-visible labels.
+- [ ] Handle empty profiles, failures, and GitHub API limits gracefully.
+- [ ] Support mobile layouts, accessible controls, and optional lightweight motion.
+- [ ] Deploy the static site to **GitHub Pages**.
 
-**Not in the MVP:** GitHub login, private repositories, a database, multiplayer features, or a dedicated backend.
+**Not in the MVP:** GitHub login, private repositories, a database, multiplayer, a backend, a complex camera or game engine, minimap, zoom, repo search, or **full-garden image export**. Export can be considered after MVP. **All final visual decisions require owner approval before implementation.**
 
 ## 🎨 Design direction
 
 We're aiming for the feeling of a **cozy pixel-art game**, rather than a conventional analytics dashboard:
 
 - Crisp pixel edges and a cohesive, limited color palette.
-- A small garden scene with plants, pathways, and ambient details.
+- A **large, continuous garden** taking up most of the viewport, with a small menu instead of a large input section.
 - Playful but lightweight animation.
 - Responsive layouts, accessible controls, and readable text.
 - A garden that stays visually interesting even when a user has few repositories.
 
-The final art style and mapping rules will be refined during prototyping.
+Pixel-art shapes, species, scenery, colors, layout, and animations must be proposed with realistic mockups and **approved by the repository owner before implementation**. The earlier AI-generated concepts are inspiration, not implementation guarantees.
 
 ## 🛠️ Planned tech stack
 
@@ -66,10 +66,10 @@ The final art style and mapping rules will be refined during prototyping.
 | --- | --- |
 | UI | React + TypeScript + Vite |
 | Styling | Tailwind CSS + custom pixel-art CSS |
-| Visuals | SVG / CSS animations (Canvas only if needed) |
-| Data | GitHub REST API (public endpoints) |
+| Visuals | Lightweight SVG / CSS pixel art |
+| Scrolling | Native horizontal overflow; minimal drag enhancement if useful |
+| Data | GitHub REST API (public endpoints) and clearly labeled local demo fixtures |
 | Hosting | GitHub Pages |
-| Image export | Client-side rendering/export |
 
 The MVP is planned as a **static site**, so it should not require a personal VPS.
 
@@ -86,11 +86,11 @@ The MVP is planned as a **static site**, so it should not require a personal VPS
 ### Phase 1 — Plant the seed 🌱
 - Set up the frontend.
 - Integrate public repository data.
-- Render a small garden with basic plant variations.
+- Render the approved ten-slot default garden and a simple horizontal extension for larger collections.
 
 ### Phase 2 — Let it bloom 🌷
 - Polish the pixel art and interactions.
-- Add animations and image export.
+- Add minimal optional animation and accessible horizontal navigation.
 - Test accessibility and mobile layouts.
 - Publish the MVP with GitHub Pages.
 
@@ -99,7 +99,13 @@ Possible future ideas (not committed features):
 - Seasons and day/night themes.
 - Tiny animals and rare plants.
 - Custom garden themes.
+- Full-garden image export.
 - More ways to share and compare gardens.
+
+## 📋 Project documentation
+
+- [Implementation plan](./docs/IMPLEMENTATION_PLAN.md) — phased tasks, acceptance criteria, and the 10-slot expansion rule.
+- [Project rules](./docs/PROJECT_RULES.md) — goals, visual approval process, simple MVP boundaries, and GitHub Pages constraints.
 
 ## 🤝 Contributing
 
