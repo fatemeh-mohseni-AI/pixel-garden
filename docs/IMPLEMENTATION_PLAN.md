@@ -1,10 +1,10 @@
 # Pixel Garden — Implementation Plan
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Last reviewed:** 2026-11-11  
 **Status:** Planning only — implementation has not started  
 **Repository:** https://github.com/fatemeh-mohseni-AI/pixel-garden  
-**Companion document:** [PROJECT_RULES.md](./PROJECT_RULES.md)
+**Companion documents:** [PROJECT_RULES.md](./PROJECT_RULES.md) · [DESIGN_BRIEF.md](./DESIGN_BRIEF.md)
 
 > This is the execution checklist for the MVP. Checkboxes indicate completed work, not estimates or promises. Do not treat future phases as authorized implementation.
 
@@ -48,7 +48,7 @@ Deliver a polished, mobile-friendly, **nearly full-viewport pixel-art garden** o
 - **Visual mapping:** stable plant species from primary language; bounded growth levels from stars; gentle decorative cues from push recency. Unknown or null metadata has safe defaults.
 - **Layout and navigation:** one page, a near-full-viewport garden, a slim header and **Try Your Own** dialog. Ten stable plant positions form the default scene; additional contiguous segments of up to ten slots extend the terrain **to the right**. Use native overflow-x scrolling/touch and a lightweight optional mouse-drag enhancement; preserve keyboard scrolling and plant focus. No zoom, camera engine, minimap, search, multi-page navigation, or permanently visible per-plant labels.
 - **Demo mode:** default demo repositories are clearly presented as samples. Prefer a small local fixture with explicitly fictional example data, so landing does not consume GitHub API requests; never imply placeholder statistics are real.
-- **Visual approval rule:** before implementation of any artistic or layout choice (palette, pixel scale, shapes, plants, scenery, typography, UI placement, animations), show the owner the intended visual treatment and obtain approval. A generated concept picture is **not** proof that the assets can be implemented faithfully.
+- **Visual approval rule:** The owner has already approved the macro direction in [DESIGN_BRIEF.md](./DESIGN_BRIEF.md). The agent has authority over small artistic details within the brief and should not repeatedly ask for approval. Ask only about material deviations (e.g. other viewpoint, style, page structure, interaction model, hosting or feature scope). AI-generated concepts are inspiration, not proof of implementation fidelity.
 - **Image export:** deferred to P2 because a growing, horizontally scrollable garden makes whole-scene export substantially harder.
 - **Persistence:** none required. Optional short-lived browser cache for public responses only.
 
@@ -61,17 +61,17 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 ### Phase 0 — Define the product (P0)
 
 - [x] **PG-001 (S):** Record the project plan, guardrails, constraints, and MVP scope in repository documentation. **Done when:** both planning files exist on main.
-- [ ] **PG-002 (S):** Present realistic mockups of **both a ≤10-repo garden and a 50-repo extended garden**, plus a lightweight mockup of the Try Your Own dialog. Agree with the owner on pixel scale, palette, plant silhouettes, terrain, typography, spacing, and motion before implementing visual decisions. **Done when:** owner explicitly approves the designs.
-- [ ] **PG-003 (S):** Agree on stable repository ordering, plant mapping and slot layout for 0/1/10/11/50/100 repos, including null values. **Done when:** a mapping table and horizontal expansion rules are reviewed and approved.
+- [x] **PG-002 (S):** Record the owner's approved macro design: side-view, cozy pixel-inspired cartoon, generic non-cultural setting, cheerful palette, slim header, Try Your Own dialog, ten-slot base and horizontal growth. **Done:** captured in DESIGN_BRIEF.md. Fine details are delegated. **The implementation must still demonstrate actual 10- and 50-repo screenshots during QA.**
+- [ ] **PG-003 (S):** Define stable repository ordering, plant mapping and slot layout for 0/1/10/11/50/100 repos, including null values. The agent may choose exact plant/flower visual mappings consistent with the approved brief; **Done when:** deterministic examples and tests are documented, without requiring approval for each plant detail.
 - [ ] **PG-004 (S):** Select an explicit code/art license and verify third-party asset license compatibility. **Done when:** the owner approves a LICENSE file; public access alone does not grant reuse rights.
 
-**Gate:** do not start implementation or choose final visual assets until the owner approves the full-page visual mockups and mapping rules. No visual changes by assumption.
+**Gate:** the macro visual brief is **approved**. Implementation may begin once Work reads the three docs. The agent owns micro-design decisions inside the brief, but must request permission before **material design/architecture deviations**. Actual 10- and 50-repository browser screenshots are a QA deliverable before launch, not an upfront approval dependency.
 
 ### Phase 1 — Bootstrap and foundations (P1)
 
 - [ ] **PG-005 (S):** Create Vite + React + TypeScript app with a clean source layout. **Done when:** local dev, production build, and preview all run.
 - [ ] **PG-006 (S):** Set up linting, formatting, strict TypeScript, and package-lock. **Done when:** quality commands pass on a clean checkout.
-- [ ] **PG-007 (S):** Implement **approved** design tokens, near-full-viewport garden shell, compact header, and dialog semantics. **Done when:** the responsive shell matches the agreed mockup without replacing the garden with cards.
+- [ ] **PG-007 (S):** Implement design tokens **within the approved DESIGN_BRIEF.md**, near-full-viewport side-view garden shell, compact header, and dialog semantics. **Done when:** the responsive shell follows the brief, with visual proof from the rendered app.
 - [ ] **PG-008 (S):** Add a small unit-test setup and sample test. **Done when:** tests run in one command.
 - [ ] **PG-009 (S):** Configure Vite's production base path for /pixel-garden/ and asset URL discipline. **Done when:** production preview and subpath smoke checks pass.
 
@@ -91,7 +91,7 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 ### Phase 3 — The actual pixel garden (P1)
 
 - [ ] **PG-016 (M):** Build the **approved** cohesive, mostly full-viewport scene with **ten plant slots** and a clearly marked sample garden on landing. **Done when:** the first ten plants fit naturally without separate cards or a dominant hero form.
-- [ ] **PG-017 (M):** Implement the **owner-approved** minimal set of reusable pixel-art plant species and two simple growth tiers. **Done when:** plants remain identifiable without a large asset inventory or game engine.
+- [ ] **PG-017 (M):** Implement 4–6 reusable **cozy cartoon / pixel-inspired** plant families, with two simple growth tiers. The agent chooses individual silhouettes and colors within DESIGN_BRIEF.md. **Done when:** plants are appealing and distinct without heavy assets or a game engine.
 - [ ] **PG-018 (S):** Add focusable, clickable plants with a compact details popover and safe external GitHub link. **Done when:** mouse, touch, and keyboard behave consistently; labels are not permanently shown over every plant.
 - [ ] **PG-019 (M):** Make the terrain extend in contiguous **ten-slot segments** once there are 11+ repositories. Use simple, accessible **horizontal overflow scrolling** (touch natively, optional mouse dragging), with obvious scroll affordance and no unintentional page-wide overflow. **Done when:** 10 fits one scene, 11 expands, 50 plants are reachable, focus can scroll a plant into view, and clicks remain reliable.
 - [ ] **PG-020 (S):** Add at most a few subtle, owner-approved CSS movements; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
@@ -111,10 +111,10 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 ### Phase 5 — Quality, deployment, and launch (P1)
 
 - [ ] **PG-026 (M):** Test sorting, plant mapping, layout growth (0/1/10/11/50/100), invalid usernames/URLs, and request failures with fixtures/mocks. **Done when:** core behaviors are covered.
-- [ ] **PG-027 (M):** Check desktop/mobile browsers, native scrolling, optional drag, keyboard plant focus, dialog accessibility, reduced-motion, and responsive behavior. **Done when:** all plants remain reachable and launch-blocking defects are fixed.
+- [ ] **PG-027 (M):** Capture **real browser screenshots of 10-repo and 50-repo scenes**, plus the Try Your Own dialog; check desktop/mobile browsers, native scrolling, optional drag, keyboard plant focus, dialog accessibility, reduced-motion, and responsive behavior. **Done when:** visual implementation respects DESIGN_BRIEF.md, all plants are reachable, and launch blockers are fixed.
 - [ ] **PG-028 (S):** Run a production-build smoke test for base URL, assets, direct refresh, and query-string links. **Done when:** no asset 404s occur at the GitHub Pages path.
 - [ ] **PG-029 (M):** Add and validate a GitHub Actions workflow to publish only the built dist/ artifact. **Done when:** a successful deployment reports the actual Pages URL.
-- [ ] **PG-030 (S):** Update README with genuine screenshots, local setup, data limitations, live URL, and license. **Done when:** published claims match the shipped app.
+- [ ] **PG-030 (S):** Update README with genuine screenshots, local setup, data limitations, live URL, and approved license. Present final result to owner and **obtain explicit permission before production publish or merge**. **Done when:** published claims match the shipped app.
 
 **Launch gate:** all P1 items complete, license chosen, no secrets in the bundle, and a verified published URL.
 
