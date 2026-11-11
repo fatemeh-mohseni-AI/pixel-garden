@@ -73,3 +73,12 @@ it('maps language and stars into six reusable families and two bounded tiers', (
     new Set(EXAMPLE_REPOSITORIES.map((item) => plantFor(item).family)).size,
   ).toBe(6);
 });
+
+it('marks push recency relative to the newest retrieved push', () => {
+  const latest = Date.UTC(2026, 10, 11);
+  expect(plantFor(repo(1, { pushedAt: latest }), latest).fresh).toBe(true);
+  expect(
+    plantFor(repo(1, { pushedAt: Date.UTC(2026, 9, 12) }), latest).fresh,
+  ).toBe(false);
+  expect(plantFor(repo(1), latest).fresh).toBe(false);
+});

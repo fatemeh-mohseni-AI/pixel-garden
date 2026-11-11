@@ -41,11 +41,17 @@ const languageFamilies = new Map<string, PlantFamily>(
   ),
 );
 
-function seed(value: number) {
-  return Math.imul(value ^ (value >>> 16), 0x45d9f3b) >>> 0;
+function seed(id: number) {
+  let value = id ^ Math.floor(id / 0x100000000);
+  value = Math.imul(value ^ (value >>> 16), 0x45d9f3b);
+  value = Math.imul(value ^ (value >>> 16), 0x45d9f3b);
+  return (value ^ (value >>> 16)) >>> 0;
 }
 
-export function plantFor(repository: Repository) {
+export function plantFor(
+  repository: Repository,
+  latestPush: number | null = null,
+) {
   const variation = seed(repository.id);
   return {
     family:
@@ -54,6 +60,11 @@ export function plantFor(repository: Repository) {
     mature: repository.stars >= 20,
     palette: variation % 3,
     flipped: (variation & 4) !== 0,
+    fresh:
+      repository.pushedAt !== null &&
+      latestPush !== null &&
+      latestPush >= repository.pushedAt &&
+      latestPush - repository.pushedAt <= 14 * 86400000,
   };
 }
 
@@ -68,9 +79,9 @@ export const SLOTS = [
   { x: 87, y: 61, mobileX: 90, mobileY: 60 },
   { x: 13.5, y: 82, mobileX: 11, mobileY: 82 },
   { x: 33, y: 85, mobileX: 31, mobileY: 85 },
-  { x: 54, y: 81, mobileX: 50, mobileY: 81 },
+  { x: 54, y: 83, mobileX: 50, mobileY: 83 },
   { x: 73, y: 84, mobileX: 69, mobileY: 84 },
-  { x: 92, y: 81, mobileX: 89, mobileY: 81 },
+  { x: 92, y: 83, mobileX: 89, mobileY: 83 },
 ] as const;
 
 export function gardenSections(repositories: readonly Repository[]) {

@@ -59,23 +59,21 @@ describe('public repository lookup', () => {
   );
 
   it('keeps forks, normalizes partial metadata, and rejects unsafe URLs and private records', async () => {
-    const fetcher = vi
-      .fn<typeof fetch>()
-      .mockResolvedValue(
-        Response.json([
-          record(1, {
-            fork: true,
-            stargazers_count: -3,
-            html_url: 'https://github.com.evil.test/gardener/repo-1',
-          }),
-          record(2, { private: true }),
-          record(3, {
-            language: 'CSS',
-            pushed_at: 'invalid',
-            html_url: 'https://github.com/gardener/repo-3',
-          }),
-        ]),
-      );
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValue(
+      Response.json([
+        record(1, {
+          fork: true,
+          stargazers_count: -3,
+          html_url: 'https://github.com.evil.test/gardener/repo-1',
+        }),
+        record(2, { private: true }),
+        record(3, {
+          language: 'CSS',
+          pushed_at: 'invalid',
+          html_url: 'https://github.com/gardener/repo-3',
+        }),
+      ]),
+    );
     const { repositories } = await createGitHubClient(fetcher)(
       'gardener',
       active(),
