@@ -20,6 +20,7 @@ import { Landscape } from './Landscape';
 import { NightMoon } from './NightScenery';
 import { Plant } from './Plant';
 import type { PlantReaction } from './PlantReactions';
+import { TrailVisitors } from './TrailVisitors';
 
 const date = new Intl.DateTimeFormat('en', {
   dateStyle: 'medium',
@@ -201,6 +202,7 @@ export function Garden({
               key={sectionIndex}
             >
               <Landscape section={sectionIndex} />
+              {sectionIndex === 0 && <TrailVisitors />}
               {sectionIndex === 0 && (
                 <GardenNeighbors
                   cottageOpen={cottageOpen}
