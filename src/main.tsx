@@ -7,5 +7,6 @@ import { App } from './App';
 import './styles/garden.css';
 import './styles/night.css';
 import './styles/delight.css';
+import './styles/trail.css';
 
 createRoot(document.getElementById('root')!).render(<App />);

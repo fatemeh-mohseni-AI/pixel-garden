@@ -1,0 +1,102 @@
+.trail-visitor {
+  position: absolute;
+  z-index: 0;
+  top: 74%;
+  width: clamp(30px, 4.4cqw, 58px);
+  pointer-events: none;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+.trail-visitor svg {
+  display: block;
+  width: 100%;
+}
+.trail-visitor--pup {
+  left: 6%;
+  animation-name: pup-crossing;
+}
+.trail-visitor--fox {
+  left: 92%;
+  animation-name: fox-crossing;
+}
+
+.trail-paws {
+  animation: trail-step 230ms steps(2, end) infinite alternate;
+}
+
+.trail-paws-far {
+  animation-direction: alternate-reverse;
+}
+
+.trail-tail {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: trail-tail 340ms ease-in-out infinite alternate;
+}
+
+@keyframes trail-step {
+  to {
+    transform: translate(2px, -1px);
+  }
+}
+@keyframes trail-tail {
+  to {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes pup-crossing {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 1;
+  }
+  56% {
+    transform: translate(22cqw, 0);
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(38cqw, 4cqh);
+  }
+}
+
+@keyframes fox-crossing {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 1;
+  }
+  54% {
+    transform: translate(-18cqw, 0);
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-33cqw, 3cqh);
+  }
+}
+
+@media (max-width: 640px) {
+  .trail-visitor {
+    top: 73%;
+  }
+  .trail-visitor--fox {
+    left: 86%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trail-visitor {
+    display: none;
+  }
+}

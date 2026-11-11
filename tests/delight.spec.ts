@@ -272,3 +272,25 @@ test('creature and plant targets are reachable on compact and wide layouts', asy
     await page.evaluate(() => innerWidth),
   );
 });
+
+test('trail visitors take turns, leave the scene and respect reduced motion', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.clock.install();
+  await page.goto('./');
+  const visitor = page.locator('[data-trail-visitor]');
+  await expect(visitor).toHaveCount(0);
+  await page.clock.runFor(2700);
+  await expect(visitor).toHaveAttribute('data-trail-visitor', 'pup');
+  await expect(visitor).toHaveCSS('pointer-events', 'none');
+  await expect(visitor).toHaveAttribute('aria-hidden', 'true');
+  await page.clock.runFor(4500);
+  await expect(visitor).toHaveCount(0);
+  await page.clock.runFor(5000);
+  await expect(visitor).toHaveAttribute('data-trail-visitor', 'fox');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(visitor).toHaveCount(0);
+  await page.clock.fastForward(40000);
+  await expect(visitor).toHaveCount(0);
+});

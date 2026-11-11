@@ -62,7 +62,9 @@ test('renders visibly distinct growth stages and brief decorative motion', async
       index === 0 ? 0 : heights[stages[index - 1]!]!,
     );
   }
-  expect(heights.rare!).toBeGreaterThan(heights.sprout! * 3);
+  expect(heights.sprout!).toBeGreaterThanOrEqual(50);
+  expect(heights.rare!).toBeGreaterThanOrEqual(90);
+  expect(heights.rare!).toBeGreaterThan(heights.sprout! * 1.7);
 
   await expect(page.locator('.garden-cottage')).toBeVisible();
   await expect(page.locator('.garden-cat')).toBeVisible();

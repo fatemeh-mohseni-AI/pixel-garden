@@ -55,9 +55,9 @@
   --stone-light: #8b8a99;
   --stone-dark: #576573;
   --stepping-stone: #8a7b89;
-  --plant-dusk: 26%;
-  --plant-soil-shadow: #274f4a;
-  --plant-soil-light: #527566;
+  --plant-dusk: 15%;
+  --plant-soil-shadow: #393c61;
+  --plant-soil-light: #ab9c9b;
   background: #171c32;
   color: #f2e9dc;
 }
