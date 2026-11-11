@@ -1,4 +1,10 @@
+import { memo } from 'react';
 import type { PlantStyle } from '../domain/garden';
+import { PlantReactions, type PlantReaction } from './PlantReactions';
+
+function moonlit(color: string) {
+  return `color-mix(in srgb, ${color}, #354b64 var(--plant-dusk, 0%))`;
+}
 
 const foliage = [
   ['#3f7048', '#659a4d', '#87b653', '#b1cd6b'],
@@ -17,11 +23,14 @@ function Sprout({ palette }: PlantStyle) {
   return (
     <>
       <path
-        fill={dark}
+        fill={moonlit(dark)}
         d="M42 89V80h-7v-4h-6v-9h9v3h6v5h4v-5h4v-5h9v8h-3v5h-6v4h-5v7Z"
       />
-      <path fill={green} d="M32 69h6v3h5v5h-6v-3h-5Zm18 3h4v-5h5v5h-3v4h-6Z" />
-      <path fill={light} d="M33 70h4v2h-4zm21-1h3v2h-3z" />
+      <path
+        fill={moonlit(green)}
+        d="M32 69h6v3h5v5h-6v-3h-5Zm18 3h4v-5h5v5h-3v4h-6Z"
+      />
+      <path fill={moonlit(light)} d="M33 70h4v2h-4zm21-1h3v2h-3z" />
     </>
   );
 }
@@ -34,28 +43,34 @@ function Bush({ palette, stage }: PlantStyle) {
     <>
       <g transform={flowering ? undefined : 'translate(9 18) scale(.8)'}>
         <path
-          fill={dark}
+          fill={moonlit(dark)}
           d="M10 77h5v-8h7v-9h11v-7h10v-7h15v6h8v8h9v9h7v14h-6v6H20v-4H10Z"
         />
         <path
-          fill={green}
+          fill={moonlit(green)}
           d="M14 77h5v-7h8v-8h9v-7h10v-7h10v7h9v8h9v9h5v10H67v5H48v-4H35v4H23v-5h-9Z"
         />
         <path
-          fill={leaf}
+          fill={moonlit(leaf)}
           d="M21 72h9v-9h11v-8h8v-4h7v7h7v6h8v9H60v-4H48v8H36v-7h-7v6h-8Z"
         />
-        <path fill={light} d="M45 57h7v4h-7zm-9 8h7v4h-7zm21 8h8v3h-8z" />
+        <path
+          fill={moonlit(light)}
+          d="M45 57h7v4h-7zm-9 8h7v4h-7zm21 8h8v3h-8z"
+        />
       </g>
       {flowering && (
         <>
-          <path fill={dark} d="M29 71V53h3v18Zm24-6V44h4v21Zm13 10V57h3v18Z" />
           <path
-            fill={outline}
+            fill={moonlit(dark)}
+            d="M29 71V53h3v18Zm24-6V44h4v21Zm13 10V57h3v18Z"
+          />
+          <path
+            fill={moonlit(outline)}
             d="M27 45h8v3h4v9h-4v3h-8v-3h-4v-9h4Zm24-11h9v4h5v9h-4v4H50v-4h-4v-9h5Zm14 18h7v3h4v7h-4v3h-8v-3h-3v-7h4Z"
           />
           <path
-            fill={flower}
+            fill={moonlit(flower)}
             d="M28 45h6v4h4v6h-5v3h-5v-3h-4v-6h4Zm24-11h7v5h5v6h-5v4h-7v-4h-5v-6h5Zm13 18h6v4h4v5h-4v2h-6v-2h-3v-5h3Z"
           />
           <path fill={shine} d="M29 50h4v4h-4zm24-10h5v5h-5zm13 16h4v4h-4z" />
@@ -86,23 +101,23 @@ function Tree({ palette }: PlantStyle) {
     <>
       <Trunk />
       <path
-        fill={dark}
+        fill={moonlit(dark)}
         d="M7 44v-9h8V24h9v-9h12V9h17v7h12v8h10v11h7v17h-6v8H64v6H49v-5H36v6H22v-6H11v-8H6v-9Z"
       />
       <path
-        fill={green}
+        fill={moonlit(green)}
         d="M10 37h8V26h10v-9h12v-6h11v8h12v8h10v11h7v13h-8v7H62v6H51v-6H33v6H24v-7H13v-8h-3Z"
       />
       <path
-        fill={leaf}
+        fill={moonlit(leaf)}
         d="M20 30h9V20h12v-7h9v8h12v10h9v10H56v-7H45v8H33v-5H19Z"
       />
       <path
-        fill={light}
+        fill={moonlit(light)}
         d="M34 22h7v-6h8v4h-6v7h-9zm20 1h6v4h-6zm-30 9h8v4h-8z"
       />
       <path
-        fill={dark}
+        fill={moonlit(dark)}
         opacity=".62"
         d="M12 49h13v4h11v-5h15v4h15v-7h12v7h-10v5H51v-4H35v6H24v-5H12Z"
       />
@@ -123,31 +138,42 @@ function RareTree({ palette }: PlantStyle) {
   return (
     <>
       <Trunk rare />
-      <path
-        fill={edge}
-        d="M4 44V31h6v-9h8v-8h11V8h13V3h17v6h12v9h8v10h6v18h-5v10H69v7H57v-5H45v8H30v-6H16v-7H8v-9Z"
-      />
-      <path
-        fill={shade}
-        d="M7 33h6V24h8v-8h11V10h13V5h12v7h12v9h8v9h6v14h-7v9H66v7h-8v-6H43v9H31v-6H18v-7H10v-9H7Z"
-      />
-      <path
-        fill={petal}
-        d="M14 28h11v-9h11v-7h11V6h10v7h11v9h8v10h6v10H71v8H58v-6H46v9H30v-7H19v-6H11v-8h3Z"
-      />
-      <path
-        fill={light}
-        d="M27 21h10v-7h11V8h8v7h11v7h7v8H63v-5H51v8H40v-6H29v6H17v-6h10Z"
-      />
-      <path
-        fill={shade}
-        opacity=".73"
-        d="M10 41h10v6h13v7h13v-7h13v4h14v-8h9v5h-7v6H58v-4H47v8H32v-6H19v-6h-9Z"
-      />
-      <path
-        fill={glint}
-        d="M46 13h7v5h-7zm-12 7h6v4h-6zm24 9h5v5h-5zm-35 7h5v5h-5zm26 2h5v5h-5zm20-3h5v4h-5zm-37 11h5v5h-5zM12 62h3v5h-3zm62-1h4v3h-4zm-9 8h3v4h-3Z"
-      />
+      <g transform="translate(-1 -1) scale(1.025 1.035)">
+        <path
+          fill={moonlit(edge)}
+          d="M4 44V31h6v-9h8v-8h11V8h13V3h17v6h12v9h8v10h6v18h-5v10H69v7H57v-5H45v8H30v-6H16v-7H8v-9Z"
+        />
+        <path
+          fill={moonlit(shade)}
+          d="M7 33h6V24h8v-8h11V10h13V5h12v7h12v9h8v9h6v14h-7v9H66v7h-8v-6H43v9H31v-6H18v-7H10v-9H7Z"
+        />
+        <path
+          fill={moonlit(petal)}
+          d="M14 28h11v-9h11v-7h11V6h10v7h11v9h8v10h6v10H71v8H58v-6H46v9H30v-7H19v-6H11v-8h3Z"
+        />
+        <path
+          fill={moonlit(light)}
+          d="M27 21h10v-7h11V8h8v7h11v7h7v8H63v-5H51v8H40v-6H29v6H17v-6h10Z"
+        />
+        <path
+          fill={moonlit(shade)}
+          opacity=".73"
+          d="M10 41h10v6h13v7h13v-7h13v4h14v-8h9v5h-7v6H58v-4H47v8H32v-6H19v-6h-9Z"
+        />
+        <path
+          fill={glint}
+          d="M46 13h7v5h-7zm-12 7h6v4h-6zm-20 12h4v3h-4zm56-4h5v4h-5zM12 62h3v5h-3zm62-1h4v3h-4zm-9 8h3v4h-3Z"
+        />
+        <path
+          fill={glint}
+          d="M26 28h4v3h4v4h-4v4h-4v-4h-4v-4h4zm30-6h4v4h4v4h-4v4h-4v-4h-4v-4h4zm-12 19h4v3h4v4h-4v4h-4v-4h-4v-4h4zm22-4h4v3h4v4h-4v3h-4v-3h-3v-4h3Z"
+        />
+        <path
+          fill="#dca85a"
+          d="M27 31h3v4h-3zm29-5h4v4h-4zm-12 18h4v4h-4zm22-4h4v4h-4ZM35 53h5v7h-5zm22-13h5v7h-5z"
+        />
+        <path fill="#fff3bb" d="M35 53h2v3h-2zm22-13h2v3h-2z" />
+      </g>
     </>
   );
 }
@@ -160,7 +186,21 @@ const sprites = {
   rare: RareTree,
 };
 
-export function Plant({ style }: { style: PlantStyle }) {
+const crownHeight: Record<PlantStyle['stage'], number> = {
+  sprout: 60,
+  bush: 48,
+  flowering: 30,
+  tree: 12,
+  rare: 8,
+};
+
+export const Plant = memo(function Plant({
+  style,
+  reaction,
+}: {
+  style: PlantStyle;
+  reaction?: { kind: PlantReaction; revision: number };
+}) {
   const Sprite = sprites[style.stage];
   const transform = style.flipped ? 'translate(88 0) scale(-1 1)' : undefined;
   return (
@@ -172,19 +212,35 @@ export function Plant({ style }: { style: PlantStyle }) {
       focusable="false"
     >
       <path
-        fill="#608747"
+        fill="var(--plant-soil-shadow, #608747)"
         opacity=".48"
         d="M14 88h10v-3h41v3h10v5H64v3H24v-3H14Z"
       />
-      <path fill="#acc86d" opacity=".68" d="M23 89h12v-2h20v2h12v4H23Z" />
-      <g className="sprite">
+      <path
+        fill="var(--plant-soil-light, #acc86d)"
+        opacity=".68"
+        d="M23 89h12v-2h20v2h12v4H23Z"
+      />
+      <g
+        className={
+          reaction?.kind === 'water' ? 'sprite sprite-watered' : 'sprite'
+        }
+        key={reaction?.revision}
+      >
         <g transform={transform}>
           <Sprite {...style} />
         </g>
       </g>
+      {reaction && (
+        <PlantReactions
+          key={reaction.revision}
+          kind={reaction.kind}
+          crown={crownHeight[style.stage]}
+        />
+      )}
       {style.fresh && (
         <path fill="#f6dd89" d="M73 75h3v3h3v3h-3v3h-3v-3h-3v-3h3Z" />
       )}
     </svg>
   );
-}
+});

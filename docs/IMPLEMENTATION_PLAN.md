@@ -160,8 +160,8 @@ Keep domain logic framework-independent and independently testable.
 
 ## 7. Post-MVP backlog (P2; not authorized for the first release)
 
-- Seasons and day/night mode.
-- Interactive animals, easter eggs, and additional rare plant variants.
+- Seasons.
+- Additional rare plant variants.
 - Garden themes and manual plant arrangement.
 - More plant species and advanced animation.
 - **Full-garden PNG export**, including offscreen sections (explicitly postponed).
@@ -176,3 +176,14 @@ Keep domain logic framework-independent and independently testable.
 - Vite deployment guide: https://vite.dev/guide/static-deploy
 - Public repository endpoint: https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user
 - REST rate limits: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
+
+
+## 9. Approved interactive magic update
+
+1. Add a shared day/night palette with stars, a moon, warm cottage windows, and fireflies.
+2. Add a temporary watering response and a legendary celebration within existing plant slots.
+3. Make the cat, birds, and cottage interactive with pointer, touch, and keyboard controls.
+4. Route cottage discovery through the loaded repositories and native horizontal scrolling.
+5. Verify the production build on desktop and mobile, across expanded gardens and reduced-motion settings. Capture each interaction in a browser before review.
+
+[Browser evidence](screenshots/interactive-magic/) covers the daytime and nighttime gardens, watering, the cottage, a selected legendary tree, and mobile. Deployment stays in the existing Pages workflow.

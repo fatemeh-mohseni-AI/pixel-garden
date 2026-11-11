@@ -1,0 +1,427 @@
+.scene-control {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  transform: translate(-50%, -50%);
+}
+
+.scene-control:focus-visible {
+  outline-color: #254e3b;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 4px #fff3cc;
+}
+
+.scene-control svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: auto;
+  max-width: none;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.scene-bird {
+  width: 44px;
+}
+.scene-bird svg {
+  width: clamp(29px, 3.35cqw, 47px);
+  transform: translate(-50%, -50%);
+}
+
+.bird-one {
+  top: 24%;
+  left: 45%;
+}
+.bird-two {
+  top: 19%;
+  left: 50.5%;
+}
+.bird-two svg {
+  width: clamp(24px, 2.7cqw, 39px);
+}
+
+.scene-cat {
+  top: 75.5%;
+  left: 63%;
+}
+.scene-cat svg {
+  width: clamp(32px, 4.4cqw, 58px);
+  transform: translate(-50%, -62%);
+}
+
+.scene-cottage {
+  top: 47.5%;
+  left: 59.83%;
+}
+
+.scene-cottage svg {
+  width: clamp(86px, 12.5cqw, 176px);
+  transform: translate(-50%, -72.5%);
+}
+
+.scene-cottage:is(:hover, :focus-visible) .cottage-door {
+  filter: brightness(1.13);
+}
+
+.cottage-door {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform 180ms steps(4);
+}
+
+.scene-cottage[aria-expanded='true'] .cottage-door {
+  transform: scaleX(0.22);
+}
+
+.cottage-gardener {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: gardener-pop 300ms steps(5) both;
+}
+
+.cottage-greeting {
+  position: absolute;
+  z-index: 4;
+  left: 57%;
+  top: max(10px, calc(46% - clamp(48px, 7cqw, 99px) - 128px));
+  width: min(250px, calc(100% - 28px));
+  transform: translateX(-50%);
+  padding: 13px 14px 12px;
+  border: 1px solid #a6a785;
+  border-radius: 9px;
+  background: #fff8e5;
+  box-shadow: 3px 3px 0 #24395055;
+  color: var(--ink);
+}
+
+.cottage-greeting::after {
+  position: absolute;
+  top: 100%;
+  left: 65%;
+  width: 13px;
+  height: 9px;
+  background: #fff8e5;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 45%,
+    72% 45%,
+    72% 73%,
+    45% 73%,
+    45% 100%,
+    0 100%
+  );
+  content: '';
+}
+
+.cottage-greeting h2 {
+  padding-right: 39px;
+  font: 700 15px/1.25 var(--mono);
+}
+.cottage-greeting h2:focus {
+  outline: none;
+}
+
+.cottage-greeting p {
+  margin: 5px 32px 7px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.cottage-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.cottage-discover {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid #bdc8a1;
+  border-radius: 6px;
+  background: #e9eed0;
+  color: #284837;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cottage-discover:hover {
+  background: #dbe8b6;
+}
+
+.plant-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px 12px;
+  margin-top: 7px;
+}
+
+.plant-actions .repository-link {
+  margin: 0;
+}
+
+.water-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 44px;
+  padding: 0 9px;
+  border: 1px solid #a8c7c4;
+  border-radius: 6px;
+  background: #e4f1e9;
+  color: #244e52;
+  font-size: 13px;
+  font-weight: 700;
+}
+.water-button:hover {
+  background: #d1ebe6;
+}
+.water-button:active {
+  background: #bde1df;
+}
+.plant-button > svg {
+  pointer-events: none;
+}
+
+.app[data-time='night'] .scene-control:focus-visible {
+  outline-color: #202446;
+}
+.app[data-time='night'] .cottage-building {
+  filter: brightness(0.7) saturate(0.81);
+}
+.app[data-time='night'] .scene-bird {
+  --bird-color: #b2afd0;
+  --bird-light: #dad2e6;
+}
+.app[data-time='night'] .garden-cat {
+  filter: saturate(0.75);
+}
+
+.cat-heart {
+  animation: heart-pop 1.18s ease-out both;
+}
+.cat-petted .cat-tail {
+  animation: tail-wag 0.28s ease-in-out 3 alternate;
+}
+.bird-flutter {
+  animation: bird-flutter 1.06s ease-in-out both;
+}
+.bird-flutter .bird-wing {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: bird-wing 0.24s ease-in-out 4 alternate;
+}
+.bird-sparks {
+  animation: magic-pop 1.14s ease-out both;
+}
+
+.watering-can {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pour-water 1.55s ease-in-out both;
+}
+.water-drop {
+  animation: water-drop 0.48s 0.1s ease-in 2 both;
+}
+.water-drop:nth-child(2) {
+  animation-delay: 0.21s;
+}
+.water-drop:nth-child(3) {
+  animation-delay: 0.32s;
+}
+.water-drop:nth-child(4) {
+  animation-delay: 0.42s;
+}
+.water-bloom {
+  transform-origin: 50% 90%;
+  animation: water-bloom 1.08s 0.48s ease-out both;
+}
+.plant-button .sprite-watered {
+  animation: sprout-bloom 0.72s 0.55s ease-out both;
+}
+.magic-sparks {
+  animation: magic-pop 1.35s ease-out both;
+}
+
+@keyframes heart-pop {
+  0% {
+    opacity: 0.8;
+    transform: translateY(4px);
+  }
+  24%,
+  68% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+    transform: translateY(-13px);
+  }
+}
+
+@keyframes tail-wag {
+  to {
+    transform: rotate(23deg);
+  }
+}
+
+@keyframes bird-flutter {
+  27% {
+    transform: translate(7px, -8px) rotate(-9deg);
+  }
+  58% {
+    transform: translate(15px, -4px) rotate(6deg);
+  }
+}
+
+@keyframes bird-wing {
+  to {
+    transform: scaleY(0.48);
+  }
+}
+
+@keyframes gardener-pop {
+  from {
+    transform: scale(0.65);
+    opacity: 0.5;
+  }
+}
+
+@keyframes pour-water {
+  0% {
+    opacity: 0.75;
+    transform: translateY(-5px);
+  }
+  18%,
+  68% {
+    opacity: 1;
+    transform: rotate(-23deg);
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+@keyframes water-drop {
+  from {
+    opacity: 0;
+  }
+  28% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.15;
+    transform: translate(-5px, 16px);
+  }
+}
+
+@keyframes water-bloom {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.85);
+  }
+  32%,
+  68% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.1;
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes sprout-bloom {
+  45% {
+    transform: translateY(-2px) scaleY(1.06);
+  }
+}
+
+@keyframes magic-pop {
+  from {
+    opacity: 0.7;
+    transform: translateY(3px);
+  }
+  32%,
+  70% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.1;
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header-actions {
+    gap: 6px;
+  }
+  .bird-one {
+    top: 24%;
+    left: 37%;
+  }
+  .bird-two {
+    top: 19%;
+    left: 50%;
+  }
+  .scene-cat {
+    top: 72.5%;
+    left: 63%;
+  }
+  .scene-cottage {
+    top: min(47.7%, calc(49.5% - 24px));
+    left: 67.4%;
+  }
+  .scene-cottage svg {
+    width: clamp(73px, 22.4cqw, 121px);
+  }
+  .cottage-greeting {
+    left: 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cottage-door {
+    transition: none;
+  }
+  .cottage-gardener,
+  .cat-heart,
+  .cat-petted .cat-tail,
+  .bird-flutter,
+  .bird-flutter .bird-wing,
+  .bird-sparks,
+  .watering-can,
+  .water-drop,
+  .water-bloom,
+  .plant-button .sprite-watered,
+  .magic-sparks {
+    animation: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header {
+    gap: 8px;
+  }
+  .brand {
+    gap: 5px;
+    font-size: 15px;
+  }
+  .brand img {
+    width: 24px;
+    height: 24px;
+  }
+  .try-button svg {
+    display: none;
+  }
+}

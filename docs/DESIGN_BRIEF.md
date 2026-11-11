@@ -113,7 +113,14 @@ If an artistic choice is technically impossible, explain a realistic substitute 
 - [ ] Assets are locally bundled or permissively licensed; no secret tokens.
 - [ ] Static Vite build works on GitHub Pages at `/pixel-garden/`.
 
-**Post-MVP only:** full-world PNG export, seasons, day/night modes, more species, interactive animals, custom themes, zoom, minimap, search, accounts, and multiplayer.
+**Post-MVP backlog:** full-world PNG export, seasons, more species, custom themes, zoom, minimap, search, accounts, and multiplayer.
+
+### Approved interactive magic update
+
+- Add a compact day/night toggle and a themed palette across the continuous garden. Keep the warm cottage, small moon, stars, and fireflies part of the same pixel-art scene.
+- Add brief, decorative watering and legendary tree reactions in the existing plant slots.
+- Make the first section's cat, birds, and cottage door tappable and keyboard-accessible. The cottage can guide the visitor to a loaded repository through the existing horizontal scroll.
+- Keep all reactions optional and provide static feedback with reduced motion. Preserve the five star thresholds, existing repository data source, and one-page layout.
 
 ## 8. Delivery and review protocol for Work
 
