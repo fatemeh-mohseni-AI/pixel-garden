@@ -46,19 +46,21 @@ The first release will focus on one polished, browser-based experience.
 - [ ] Support mobile layouts, accessible controls, and optional lightweight motion.
 - [ ] Deploy the static site to **GitHub Pages**.
 
-**Not in the MVP:** GitHub login, private repositories, a database, multiplayer, a backend, a complex camera or game engine, minimap, zoom, repo search, or **full-garden image export**. Export can be considered after MVP. **All final visual decisions require owner approval before implementation.**
+**Not in the MVP:** GitHub login, private repositories, a database, multiplayer, a backend, a complex camera or game engine, minimap, zoom, repo search, or **full-garden image export**. Export can be considered after MVP. **The high-level visual direction is approved; fine design details are delegated to the agent under the design brief.**
 
 ## 🎨 Design direction
 
 We're aiming for the feeling of a **cozy pixel-art game**, rather than a conventional analytics dashboard:
 
-- Crisp pixel edges and a cohesive, limited color palette.
+- A friendly **side-view, slightly layered 2D cartoon** with crisp, pixel-inspired details.
+- **No Iranian or other recognizable cultural elements** — only a generic, fictional fantasy garden.
+- Soft, bright, cheerful greens and sky blues with warm paths and colorful flower accents; no neon/cyberpunk or photorealism.
 - A **large, continuous garden** taking up most of the viewport, with a small menu instead of a large input section.
 - Playful but lightweight animation.
 - Responsive layouts, accessible controls, and readable text.
 - A garden that stays visually interesting even when a user has few repositories.
 
-Pixel-art shapes, species, scenery, colors, layout, and animations must be proposed with realistic mockups and **approved by the repository owner before implementation**. The earlier AI-generated concepts are inspiration, not implementation guarantees.
+The repository owner has **approved this high-level design direction**. The implementation agent may independently decide small details such as plant shapes, natural decorations, exact colors, type, spacing, and gentle micro-animations **within [the design brief](./docs/DESIGN_BRIEF.md)**. Only major deviations require new approval. Earlier AI-generated concepts are inspiration, not pixel-perfect implementation guarantees.
 
 ## 🛠️ Planned tech stack
 
@@ -105,7 +107,8 @@ Possible future ideas (not committed features):
 ## 📋 Project documentation
 
 - [Implementation plan](./docs/IMPLEMENTATION_PLAN.md) — phased tasks, acceptance criteria, and the 10-slot expansion rule.
-- [Project rules](./docs/PROJECT_RULES.md) — goals, visual approval process, simple MVP boundaries, and GitHub Pages constraints.
+- [Project rules](./docs/PROJECT_RULES.md) — goals, design decision authority, MVP boundaries, and GitHub Pages constraints.
+- [Approved design brief](./docs/DESIGN_BRIEF.md) — visual direction, 10-to-50 repository behavior, and delegated micro-design choices.
 
 ## 🤝 Contributing
 
