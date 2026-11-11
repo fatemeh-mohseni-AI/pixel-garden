@@ -2,7 +2,7 @@
 
 **Version:** 1.2  
 **Last reviewed:** 2026-11-11  
-**Status:** Planning only — implementation has not started  
+**Status:** MVP implemented and verified locally. Owner review, license approval, and Pages release are pending.\
 **Repository:** https://github.com/fatemeh-mohseni-AI/pixel-garden  
 **Companion documents:** [PROJECT_RULES.md](./PROJECT_RULES.md) · [DESIGN_BRIEF.md](./DESIGN_BRIEF.md)
 
@@ -62,71 +62,73 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 
 - [x] **PG-001 (S):** Record the project plan, guardrails, constraints, and MVP scope in repository documentation. **Done when:** both planning files exist on main.
 - [x] **PG-002 (S):** Record the owner's approved macro design: side-view, cozy pixel-inspired cartoon, generic non-cultural setting, cheerful palette, slim header, Try Your Own dialog, ten-slot base and horizontal growth. **Done:** captured in DESIGN_BRIEF.md. Fine details are delegated. **The implementation must still demonstrate actual 10- and 50-repo screenshots during QA.**
-- [ ] **PG-003 (S):** Define stable repository ordering, plant mapping and slot layout for 0/1/10/11/50/100 repos, including null values. The agent may choose exact plant/flower visual mappings consistent with the approved brief; **Done when:** deterministic examples and tests are documented, without requiring approval for each plant detail.
+- [x] **PG-003 (S):** Define stable repository ordering, plant mapping and slot layout for 0/1/10/11/50/100 repos, including null values. The agent may choose exact plant/flower visual mappings consistent with the approved brief; **Done when:** deterministic examples and tests are documented, without requiring approval for each plant detail.
 - [ ] **PG-004 (S):** Select an explicit code/art license and verify third-party asset license compatibility. **Done when:** the owner approves a LICENSE file; public access alone does not grant reuse rights.
 
 **Gate:** the macro visual brief is **approved**. Implementation may begin once Work reads the three docs. The agent owns micro-design decisions inside the brief, but must request permission before **material design/architecture deviations**. Actual 10- and 50-repository browser screenshots are a QA deliverable before launch, not an upfront approval dependency.
 
 ### Phase 1 — Bootstrap and foundations (P1)
 
-- [ ] **PG-005 (S):** Create Vite + React + TypeScript app with a clean source layout. **Done when:** local dev, production build, and preview all run.
-- [ ] **PG-006 (S):** Set up linting, formatting, strict TypeScript, and package-lock. **Done when:** quality commands pass on a clean checkout.
-- [ ] **PG-007 (S):** Implement design tokens **within the approved DESIGN_BRIEF.md**, near-full-viewport side-view garden shell, compact header, and dialog semantics. **Done when:** the responsive shell follows the brief, with visual proof from the rendered app.
-- [ ] **PG-008 (S):** Add a small unit-test setup and sample test. **Done when:** tests run in one command.
-- [ ] **PG-009 (S):** Configure Vite's production base path for /pixel-garden/ and asset URL discipline. **Done when:** production preview and subpath smoke checks pass.
+- [x] **PG-005 (S):** Create Vite + React + TypeScript app with a clean source layout. **Done when:** local dev, production build, and preview all run.
+- [x] **PG-006 (S):** Set up linting, formatting, strict TypeScript, and package-lock. **Done when:** quality commands pass on a clean checkout.
+- [x] **PG-007 (S):** Implement design tokens **within the approved DESIGN_BRIEF.md**, near-full-viewport side-view garden shell, compact header, and dialog semantics. **Done when:** the responsive shell follows the brief, with visual proof from the rendered app.
+- [x] **PG-008 (S):** Add a small unit-test setup and sample test. **Done when:** tests run in one command.
+- [x] **PG-009 (S):** Configure Vite's production base path for /pixel-garden/ and asset URL discipline. **Done when:** production preview and subpath smoke checks pass.
 
 **Gate:** the scaffold is stable; no garden feature is counted done until the production build works.
 
 ### Phase 2 — GitHub data and domain rules (P1)
 
-- [ ] **PG-010 (S):** Validate both GitHub usernames and github.com profile links in the compact Try Your Own dialog; prevent duplicate submits. **Done when:** Enter, Escape, focus return, and useful error messages work.
-- [ ] **PG-011 (M):** Write a typed GitHub REST client with AbortController and response/error handling. **Done when:** public accounts work; 404, 403/429, and offline cases have typed outcomes.
-- [ ] **PG-012 (S):** Normalize and consistently order up to the first 100 retrieved repositories **without reducing them to ten**; disclose the one-page API cap. **Done when:** 0/1/10/11/50/100 cases and tie ordering are tested.
-- [ ] **PG-013 (M):** Implement pure, deterministic repo-to-plant mapping. **Done when:** the same repository metadata produces the same plant with safe defaults.
-- [ ] **PG-014 (S):** Add loading, empty, unavailable, and rate-limited UI states. **Done when:** no state produces a blank screen or an uncontrolled retry loop.
-- [ ] **PG-015 (S):** Minimize requests with in-memory caching and optional short TTL browser caching. **Done when:** repeated renders do not refetch and the cache is documented.
+- [x] **PG-010 (S):** Validate both GitHub usernames and github.com profile links in the compact Try Your Own dialog; prevent duplicate submits. **Done when:** Enter, Escape, focus return, and useful error messages work.
+- [x] **PG-011 (M):** Write a typed GitHub REST client with AbortController and response/error handling. **Done when:** public accounts work; 404, 403/429, and offline cases have typed outcomes.
+- [x] **PG-012 (S):** Normalize and consistently order up to the first 100 retrieved repositories **without reducing them to ten**; disclose the one-page API cap. **Done when:** 0/1/10/11/50/100 cases and tie ordering are tested.
+- [x] **PG-013 (M):** Implement pure, deterministic repo-to-plant mapping. **Done when:** the same repository metadata produces the same plant with safe defaults.
+- [x] **PG-014 (S):** Add loading, empty, unavailable, and rate-limited UI states. **Done when:** no state produces a blank screen or an uncontrolled retry loop.
+- [x] **PG-015 (S):** Minimize requests with in-memory caching and optional short TTL browser caching. **Done when:** repeated renders do not refetch and the cache is documented.
 
 **Gate:** mocked tests and at least one real public-account smoke test pass.
 
 ### Phase 3 — The actual pixel garden (P1)
 
-- [ ] **PG-016 (M):** Build the **approved** cohesive, mostly full-viewport scene with **ten plant slots** and a clearly marked sample garden on landing. **Done when:** the first ten plants fit naturally without separate cards or a dominant hero form.
-- [ ] **PG-017 (M):** Implement 4–6 reusable **cozy cartoon / pixel-inspired** plant families, with two simple growth tiers. The agent chooses individual silhouettes and colors within DESIGN_BRIEF.md. **Done when:** plants are appealing and distinct without heavy assets or a game engine.
-- [ ] **PG-018 (S):** Add focusable, clickable plants with a compact details popover and safe external GitHub link. **Done when:** mouse, touch, and keyboard behave consistently; labels are not permanently shown over every plant.
-- [ ] **PG-019 (M):** Make the terrain extend in contiguous **ten-slot segments** once there are 11+ repositories. Use simple, accessible **horizontal overflow scrolling** (touch natively, optional mouse dragging), with obvious scroll affordance and no unintentional page-wide overflow. **Done when:** 10 fits one scene, 11 expands, 50 plants are reachable, focus can scroll a plant into view, and clicks remain reliable.
-- [ ] **PG-020 (S):** Add at most a few subtle, owner-approved CSS movements; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
-- [ ] **PG-021 (S):** Polish contrast, loading visuals, empty soil plots, and unknown-language plants. **Done when:** edge-case gardens still look intentional.
+- [x] **PG-016 (M):** Build the **approved** cohesive, mostly full-viewport scene with **ten plant slots** and a clearly marked sample garden on landing. **Done when:** the first ten plants fit naturally without separate cards or a dominant hero form.
+- [x] **PG-017 (M):** Implement 4–6 reusable **cozy cartoon / pixel-inspired** plant families, with two simple growth tiers. The agent chooses individual silhouettes and colors within DESIGN_BRIEF.md. **Done when:** plants are appealing and distinct without heavy assets or a game engine.
+- [x] **PG-018 (S):** Add focusable, clickable plants with a compact details popover and safe external GitHub link. **Done when:** mouse, touch, and keyboard behave consistently; labels are not permanently shown over every plant.
+- [x] **PG-019 (M):** Make the terrain extend in contiguous **ten-slot segments** once there are 11+ repositories. Use simple, accessible **horizontal overflow scrolling** (touch natively, optional mouse dragging), with obvious scroll affordance and no unintentional page-wide overflow. **Done when:** 10 fits one scene, 11 expands, 50 plants are reachable, focus can scroll a plant into view, and clicks remain reliable.
+- [x] **PG-020 (S):** Add at most a few subtle, owner-approved CSS movements; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
+- [x] **PG-021 (S):** Polish contrast, loading visuals, empty soil plots, and unknown-language plants. **Done when:** edge-case gardens still look intentional.
 
 **Gate:** visual and accessibility review of a desktop and mobile garden.
 
 ### Phase 4 — Minimal user experience and polish (P1)
 
-- [ ] **PG-022 (S):** Provide a small local demo-repository fixture (no fake stats presented as real) and a default 1–10-plant garden. **Done when:** the site displays a useful demo without any network access.
-- [ ] **PG-023 (S):** Complete the **Try Your Own** dialog and optional ?user=USERNAME link. **Done when:** the demo can be replaced with a user's garden and the URL works under /pixel-garden/.
-- [ ] **PG-024 (S):** Provide tiny, nonintrusive guidance such as **Drag/scroll to explore** only when the garden exceeds ten plants; clarify loading/errors. **Done when:** first-time visitors can discover additional garden sections.
-- [ ] **PG-025 (S):** Tune for mobile/slow connections; simplify or remove nonessential decorations. **Done when:** the expanded garden is usable on a phone and no expensive animation is required.
+- [x] **PG-022 (S):** Provide a small local demo-repository fixture (no fake stats presented as real) and a default 1–10-plant garden. **Done when:** the site displays a useful demo without any network access.
+- [x] **PG-023 (S):** Complete the **Try Your Own** dialog and optional ?user=USERNAME link. **Done when:** the demo can be replaced with a user's garden and the URL works under /pixel-garden/.
+- [x] **PG-024 (S):** Provide tiny, nonintrusive guidance such as **Drag/scroll to explore** only when the garden exceeds ten plants; clarify loading/errors. **Done when:** first-time visitors can discover additional garden sections.
+- [x] **PG-025 (S):** Tune for mobile/slow connections; simplify or remove nonessential decorations. **Done when:** the expanded garden is usable on a phone and no expensive animation is required.
 
 **Gate:** complete end-to-end journey works without credentials.
 
 ### Phase 5 — Quality, deployment, and launch (P1)
 
-- [ ] **PG-026 (M):** Test sorting, plant mapping, layout growth (0/1/10/11/50/100), invalid usernames/URLs, and request failures with fixtures/mocks. **Done when:** core behaviors are covered.
-- [ ] **PG-027 (M):** Capture **real browser screenshots of 10-repo and 50-repo scenes**, plus the Try Your Own dialog; check desktop/mobile browsers, native scrolling, optional drag, keyboard plant focus, dialog accessibility, reduced-motion, and responsive behavior. **Done when:** visual implementation respects DESIGN_BRIEF.md, all plants are reachable, and launch blockers are fixed.
-- [ ] **PG-028 (S):** Run a production-build smoke test for base URL, assets, direct refresh, and query-string links. **Done when:** no asset 404s occur at the GitHub Pages path.
+- [x] **PG-026 (M):** Test sorting, plant mapping, layout growth (0/1/10/11/50/100), invalid usernames/URLs, and request failures with fixtures/mocks. **Done when:** core behaviors are covered.
+- [x] **PG-027 (M):** Capture **real browser screenshots of 10-repo and 50-repo scenes**, plus the Try Your Own dialog; check desktop/mobile browsers, native scrolling, optional drag, keyboard plant focus, dialog accessibility, reduced-motion, and responsive behavior. **Done when:** visual implementation respects DESIGN_BRIEF.md, all plants are reachable, and launch blockers are fixed.
+- [x] **PG-028 (S):** Run a production-build smoke test for base URL, assets, direct refresh, and query-string links. **Done when:** no asset 404s occur at the GitHub Pages path.
 - [ ] **PG-029 (M):** Add and validate a GitHub Actions workflow to publish only the built dist/ artifact. **Done when:** a successful deployment reports the actual Pages URL.
 - [ ] **PG-030 (S):** Update README with genuine screenshots, local setup, data limitations, live URL, and approved license. Present final result to owner and **obtain explicit permission before production publish or merge**. **Done when:** published claims match the shipped app.
 
-**Launch gate:** all P1 items complete, license chosen, no secrets in the bundle, and a verified published URL.
+**Review evidence:** [10 repositories](screenshots/example-garden-10.png) · [50 repositories](screenshots/expanded-garden-50.png) · [lookup dialog](screenshots/try-your-own-dialog.png) · [mobile example](screenshots/example-garden-mobile.png). The 50-repository image uses a test fixture. TypeScript, lint, formatting, the production build, unit and Chromium browser tests, and workflow syntax validation passed locally. A live browser lookup of `octocat` returned HTTP 200 and rendered eight public repositories.
 
-## 4. Suggested code layout (planned, not created)
+**Launch gate:** PG-004, PG-029, and PG-030 remain open. The Pages workflow is present and passes local validation. Owner license approval, approval to merge and publish, and verification of the deployed URL are still required.
+
+## 4. Code layout
 
 - **src/components/** — garden, plants, controls, detail panel, status states.
-- **src/lib/github/** — typed API requests and error handling.
+- **src/lib/github.ts** — typed API requests and error handling.
 - **src/domain/** — deterministic repository selection and plant mapping.
 - **src/styles/** — global tokens and pixel-art styling.
-- **src/assets/** — versioned, licensed local art only.
-- **src/test/** — test fixtures and automated checks.
-- **.github/workflows/** — GitHub Pages build/deploy workflow (added in Phase 5).
+- **public/** — the original favicon and bundled font license notices. The scene artwork lives in the SVG components.
+- **tests/** — browser fixtures and automated checks. Unit tests live beside their source modules.
+- **.github/workflows/** — PR checks and manual GitHub Pages deployment.
 
 Keep domain logic framework-independent and independently testable.
 
@@ -174,7 +176,3 @@ Keep domain logic framework-independent and independently testable.
 - Vite deployment guide: https://vite.dev/guide/static-deploy
 - Public repository endpoint: https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user
 - REST rate limits: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
-
----
-
-**Documentation only:** this plan does not imply that development, deployment, or the GitHub Pages setup has started.
