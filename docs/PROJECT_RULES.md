@@ -2,7 +2,7 @@
 
 **Version:** 1.2  
 **Last reviewed:** 2026-11-11  
-**Status:** Approved constraints for planning; implementation not started  
+**Status:** Approved constraints for the MVP and its release.\
 **Implementation checklist:** [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)  
 **Approved design direction:** [DESIGN_BRIEF.md](./DESIGN_BRIEF.md)
 
@@ -184,7 +184,3 @@ If new functionality or a **material visual decision** conflicts with the approv
 - Vite + GitHub Pages base configuration: https://vite.dev/guide/static-deploy
 - Public GitHub repository API: https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user
 - GitHub REST rate limits: https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api
-
----
-
-**This document describes guardrails and intent. It does not mean implementation has begun.**
