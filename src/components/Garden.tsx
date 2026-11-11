@@ -318,8 +318,8 @@ export function Garden({
         ) : (
           repositories.length > 0 && (
             <p className="plant-hint">
-              <Icon name="pointer" width="15" height="15" /> Select a plant to
-              see its repository
+              <Icon name="pointer" width="15" height="15" /> Select a plant for
+              details
             </p>
           )
         )}

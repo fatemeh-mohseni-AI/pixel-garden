@@ -235,11 +235,46 @@ h2 {
   }
 }
 
+.bird-flight {
+  animation: bird-glide 4.4s ease-in-out both;
+}
+
+.garden-bird + .garden-bird .bird-flight {
+  animation-delay: 150ms;
+}
+
+.cat-tail {
+  transform-box: fill-box;
+  transform-origin: 0 90%;
+  animation: cat-tail 3.8s ease-in-out both;
+}
+
+@keyframes bird-glide {
+  0% {
+    transform: translate(-18px, 5px);
+  }
+  60% {
+    transform: translate(-5px, -3px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes cat-tail {
+  32% {
+    transform: rotate(-9deg);
+  }
+  58% {
+    transform: rotate(5deg);
+  }
+}
+
 .plant-button {
-  --plant-size: clamp(44px, min(12cqw, 19cqh), 171px);
+  --plant-size: clamp(44px, min(12cqw, 18.5cqh), 171px);
   position: absolute;
   z-index: 1;
-  top: var(--slot-y);
+  top: calc(var(--slot-y) + 2%);
   left: var(--slot-x);
   display: grid;
   place-items: center;
@@ -250,11 +285,11 @@ h2 {
   border-radius: 9px;
   background: transparent;
   color: inherit;
-  transform: translate(-50%, -87%);
+  transform: translate(-50%, -100%);
 }
 
 .plant-button--back {
-  --plant-size: clamp(44px, min(11cqw, 19cqh), 150px);
+  --plant-size: clamp(44px, min(12.3cqw, 22cqh), 175px);
 }
 .plant-button svg {
   display: block;
@@ -266,14 +301,8 @@ h2 {
   transform-origin: 50% 89%;
   transition: transform 180ms ease-out;
 }
-.plant-button .sprite--young {
-  transform: scale(0.82);
-}
-.plant-button:is(:hover, [aria-expanded='true']) .sprite--mature {
-  transform: translateY(-4px);
-}
-.plant-button:is(:hover, [aria-expanded='true']) .sprite--young {
-  transform: translateY(-4px) scale(0.82);
+.plant-button:is(:hover, [aria-expanded='true']) .sprite {
+  transform: translateY(-3px);
 }
 .plant-button:focus-visible {
   outline-color: #264d38;
@@ -605,7 +634,8 @@ h2 {
     transform: translate(803px, 112px);
   }
   .sun-art,
-  .cloud-art {
+  .cloud-art,
+  .scene-prop-scale {
     transform: scaleY(0.64);
   }
   .mobile-trees {
@@ -614,7 +644,7 @@ h2 {
   .plant-button {
     --plant-size: clamp(44px, min(19cqw, 19cqh), 103px);
     left: var(--mobile-x);
-    top: var(--mobile-y);
+    top: calc(var(--mobile-y) + 2%);
   }
   .plant-button--back {
     --plant-size: clamp(44px, min(17.5cqw, 19cqh), 92px);
@@ -649,7 +679,9 @@ h2 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .clouds {
+  .clouds,
+  .bird-flight,
+  .cat-tail {
     animation: none;
   }
   .garden-scroll {

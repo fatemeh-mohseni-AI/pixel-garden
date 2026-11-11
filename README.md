@@ -6,7 +6,7 @@ Pixel Garden turns public GitHub repositories into an interactive pixel-art gard
 
 [Expanded 50-repository garden](docs/screenshots/expanded-garden-50.png) · [Mobile example](docs/screenshots/example-garden-mobile.png) · [Try Your Own dialog](docs/screenshots/try-your-own-dialog.png)
 
-The expanded screenshot uses a 50-repository test fixture and shows the second of five sections. All screenshots were captured from the production build in Chromium.
+The expanded screenshot uses a 50-repository test fixture and shows a 481-star rare tree in the second of five sections. All screenshots were captured from the production build in Chromium.
 
 ## Explore a garden
 
@@ -19,13 +19,13 @@ The expanded screenshot uses a 50-repository test fixture and shows the second o
 | GitHub data | Garden rule |
 | --- | --- |
 | Repository | One plant per retrieved public repository, including forks |
-| Primary language | One of six sprite families, with a sprout for unknown or missing languages |
-| Repository ID | Stable palette and sprite direction |
-| Stars | Young below 20 stars, mature at 20 and above |
+| Primary language | Foliage and blossom palette, with a stable fallback when language is unavailable |
+| Repository ID | Stable fallback palette and sprite direction |
+| Stars | Sprout (0–2), bush (3–14), flowering bush (15–59), large tree (60–249), rare flowering tree (250+) |
 | Push timestamp | A small gold accent for pushes within 14 days of the newest retrieved push |
 | Ordering | Latest push first, then stars descending, case-insensitive name, and ID |
 
-For example, a JavaScript repository with 19 stars is a young flower. At 20 it becomes a mature flower with the same palette. The same set of public records produces the same plants and slot order. The plant style reflects repository metadata.
+The same set of public records produces the same plants and slot order. The garden opens with a small cottage, a cat, and two birds in the first section. The birds glide and the cat flicks its tail briefly when the garden opens. Reduced-motion settings disable those movements.
 
 The browser requests the first GitHub REST page of up to **100** public, owned repositories. The UI indicates when it reaches that cap. GitHub applies limits to unauthenticated requests. Successful lookups are cached in memory for five minutes, up to 20 profiles per tab. Pixel Garden has no server, credentials, analytics, or persistent application storage.
 

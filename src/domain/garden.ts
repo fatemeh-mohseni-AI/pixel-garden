@@ -26,20 +26,46 @@ export function orderRepositories(repositories: readonly Repository[]) {
     .slice(0, REPOSITORY_LIMIT);
 }
 
-const families = {
-  flower: ['javascript', 'html', 'vue', 'svelte', 'astro', 'css', 'scss'],
-  spire: ['typescript', 'c#', 'swift', 'kotlin'],
-  tree: ['go', 'rust', 'java', 'c', 'c++', 'dart'],
-  shrub: ['python', 'jupyter notebook', 'r', 'ruby', 'php'],
-  cactus: ['shell', 'lua', 'zig', 'powershell', 'nix'],
-} as const;
+const paletteLanguages = [
+  ['javascript', 'html', 'vue', 'svelte', 'astro', 'css', 'scss'],
+  [
+    'typescript',
+    'c#',
+    'swift',
+    'kotlin',
+    'go',
+    'rust',
+    'java',
+    'c',
+    'c++',
+    'dart',
+  ],
+  [
+    'python',
+    'jupyter notebook',
+    'r',
+    'ruby',
+    'php',
+    'shell',
+    'lua',
+    'zig',
+    'powershell',
+    'nix',
+  ],
+];
 
-type PlantFamily = keyof typeof families | 'sprout';
-const languageFamilies = new Map<string, PlantFamily>(
-  Object.entries(families).flatMap(([family, languages]) =>
-    languages.map((language) => [language, family as keyof typeof families]),
+const languagePalettes = new Map(
+  paletteLanguages.flatMap((languages, palette) =>
+    languages.map((language) => [language, palette] as const),
   ),
 );
+
+const growthStages = [
+  { below: 3, stage: 'sprout' },
+  { below: 15, stage: 'bush' },
+  { below: 60, stage: 'flowering' },
+  { below: 250, stage: 'tree' },
+] as const;
 
 function seed(id: number) {
   let value = id ^ Math.floor(id / 0x100000000);
@@ -53,12 +79,13 @@ export function plantFor(
   latestPush: number | null = null,
 ) {
   const variation = seed(repository.id);
+  const stage: (typeof growthStages)[number]['stage'] | 'rare' =
+    growthStages.find(({ below }) => repository.stars < below)?.stage ?? 'rare';
   return {
-    family:
-      languageFamilies.get(repository.language?.toLowerCase() ?? '') ??
-      'sprout',
-    mature: repository.stars >= 20,
-    palette: variation % 3,
+    stage,
+    palette:
+      languagePalettes.get(repository.language?.toLowerCase() ?? '') ??
+      variation % 3,
     flipped: (variation & 4) !== 0,
     fresh:
       repository.pushedAt !== null &&

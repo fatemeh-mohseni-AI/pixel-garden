@@ -58,20 +58,37 @@ it('orders pushes, then stars, name and stable ID, keeping null pushes last', ()
   expect(items[0]?.id).toBe(7);
 });
 
-it('maps language and stars into six reusable families and two bounded tiers', () => {
-  const flower = plantFor(repo(10, { language: 'JavaScript', stars: 19 }));
-  expect(flower).toEqual(
-    plantFor(repo(10, { language: 'javascript', stars: 1 })),
+it.each([
+  [0, 'sprout'],
+  [2, 'sprout'],
+  [3, 'bush'],
+  [14, 'bush'],
+  [15, 'flowering'],
+  [59, 'flowering'],
+  [60, 'tree'],
+  [249, 'tree'],
+  [250, 'rare'],
+  [1e8, 'rare'],
+])('maps %i stars to the %s growth stage', (stars, stage) => {
+  expect(plantFor(repo(10, { stars })).stage).toBe(stage);
+});
+
+it('keeps palettes and facing deterministic across growth stages', () => {
+  const young = plantFor(repo(10, { language: 'JavaScript', stars: 0 }));
+  const grown = plantFor(repo(10, { language: 'javascript', stars: 250 }));
+  expect(grown).toMatchObject({
+    palette: young.palette,
+    flipped: young.flipped,
+  });
+  expect(plantFor(repo(10, { language: 'Unknown' }))).toEqual(
+    plantFor(repo(10)),
   );
-  expect(flower).toMatchObject({ family: 'flower', mature: false });
-  expect(plantFor(repo(10, { language: 'JavaScript', stars: 20 }))).toEqual(
-    plantFor(repo(10, { language: 'JavaScript', stars: 1e8 })),
+  expect(plantFor(repo(10, { language: 'Python' })).palette).not.toBe(
+    young.palette,
   );
-  expect(plantFor(repo(10, { language: 'Unknown' })).family).toBe('sprout');
-  expect(plantFor(repo(10)).family).toBe('sprout');
   expect(
-    new Set(EXAMPLE_REPOSITORIES.map((item) => plantFor(item).family)).size,
-  ).toBe(6);
+    new Set(EXAMPLE_REPOSITORIES.map((item) => plantFor(item).stage)).size,
+  ).toBe(5);
 });
 
 it('marks push recency relative to the newest retrieved push', () => {
