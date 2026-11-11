@@ -36,36 +36,47 @@ export function App() {
   const [lookup, setLookup] = useState<LookupState>(idle);
   const [dialogOpen, setDialogOpen] = useState(false);
   const request = useRef<AbortController | null>(null);
+  const tryButton = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const initialProfile = useRef(
     new URLSearchParams(window.location.search).get('user'),
   );
 
-  const load = useCallback(async (username: string) => {
-    if (request.current) return;
-    const controller = new AbortController();
-    request.current = controller;
-    setLookup({ status: 'loading' });
-
-    try {
-      const result = await fetchGarden(username, controller.signal);
-      if (request.current !== controller) return;
-      setGarden(result);
-      setLookup(idle);
-      dialog.current?.close();
-      setDialogOpen(false);
-      const url = new URL(window.location.href);
-      url.searchParams.set('user', result.username);
-      window.history.replaceState(null, '', url);
-    } catch (error) {
-      if (request.current === controller) {
-        setLookup({ status: 'error', message: messageFor(error, username) });
-      }
-    } finally {
-      if (request.current === controller) request.current = null;
+  const closeLookup = useCallback(() => {
+    if (dialog.current?.open) {
+      dialog.current.close();
+      tryButton.current?.focus();
     }
+    setDialogOpen(false);
   }, []);
+
+  const load = useCallback(
+    async (username: string) => {
+      if (request.current) return;
+      const controller = new AbortController();
+      request.current = controller;
+      setLookup({ status: 'loading' });
+
+      try {
+        const result = await fetchGarden(username, controller.signal);
+        if (request.current !== controller) return;
+        setGarden(result);
+        setLookup(idle);
+        closeLookup();
+        const url = new URL(window.location.href);
+        url.searchParams.set('user', result.username);
+        window.history.replaceState(null, '', url);
+      } catch (error) {
+        if (request.current === controller) {
+          setLookup({ status: 'error', message: messageFor(error, username) });
+        }
+      } finally {
+        if (request.current === controller) request.current = null;
+      }
+    },
+    [closeLookup],
+  );
 
   useEffect(() => {
     const candidate = initialProfile.current;
@@ -96,8 +107,7 @@ export function App() {
   function dismissLookup() {
     request.current?.abort();
     request.current = null;
-    dialog.current?.close();
-    setDialogOpen(false);
+    closeLookup();
     setLookup(idle);
   }
 
@@ -115,6 +125,7 @@ export function App() {
         </div>
         <button
           className="primary-button try-button"
+          ref={tryButton}
           type="button"
           onClick={openLookup}
           aria-haspopup="dialog"

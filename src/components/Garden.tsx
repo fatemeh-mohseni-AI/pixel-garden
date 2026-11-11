@@ -40,7 +40,12 @@ export function Garden({
   const expanded = sections.length > 1;
   const latestPush = repositories[0]?.pushedAt ?? null;
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState<Repository | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const selected =
+    selectedId === null
+      ? null
+      : (repositories.find((repository) => repository.id === selectedId) ??
+        null);
   const viewport = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
@@ -51,7 +56,7 @@ export function Garden({
     returningFocus.current = true;
     opener.current?.focus();
     returningFocus.current = false;
-    setSelected(null);
+    setSelectedId(null);
   }
 
   function inspect(
@@ -68,7 +73,7 @@ export function Garden({
         moveToDetails.current = true;
       }
     }
-    setSelected(repository);
+    setSelectedId(repository.id);
   }
 
   function pan(index: number) {
