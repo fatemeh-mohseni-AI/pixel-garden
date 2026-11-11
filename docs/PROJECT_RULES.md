@@ -1,9 +1,10 @@
 # Pixel Garden — Project Charter & Engineering Rules
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Last reviewed:** 2026-11-11  
 **Status:** Approved constraints for planning; implementation not started  
-**Implementation checklist:** [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)
+**Implementation checklist:** [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)  
+**Approved design direction:** [DESIGN_BRIEF.md](./DESIGN_BRIEF.md)
 
 > **North star:** Show an expansive, mostly full-viewport pixel-art garden from public GitHub repositories on **one page**. Up to ten plants fit the default garden; beyond ten, the world extends horizontally with the simplest possible navigation. It must work on a phone and GitHub Pages without operating a server.
 
@@ -16,7 +17,7 @@
 5. **Private by design.** Do not ask users for secrets or silently collect personal information.
 6. **Free to host and operate at MVP scale.** No required VPS, database, commercial AI API, or always-on backend.
 7. **Accurate representation.** Stars, language, and push recency are visual cues, not evaluations of developer skill.
-8. **Approval before aesthetics.** Before selecting or implementing any visual treatment, present a realistic target/mockup to the owner and obtain explicit approval. This covers plant silhouettes, pixel art, colors, terrain, typography, component placement, and animation. No unilateral visual choices.
+8. **Owner-approved direction, delegated details.** The owner has approved the macro visual brief: cozy, cheerful, generic **side-view pixel-inspired cartoon**, no Iranian or other identifiable cultural elements, tiny header, full-viewport garden, Try Your Own dialog, 10-slot base, horizontal extension. The agent may freely choose small artistic details within [DESIGN_BRIEF.md](./DESIGN_BRIEF.md); approval is needed only for material deviations.
 
 ## 2. Explicit MVP boundaries
 
@@ -52,7 +53,7 @@ Anything outside this scope requires explicit approval and a plan update.
 
 ## 3. Approved architecture
 
-**Preferred:** React + TypeScript + Vite; Tailwind CSS if it improves maintainability, plus custom CSS; locally bundled SVG/CSS pixel-art components; GitHub REST API accessed directly by the browser.
+**Preferred:** React + TypeScript + Vite; Tailwind CSS if it improves maintainability, plus custom CSS; locally bundled SVG/CSS pixel-inspired cartoon components; GitHub REST API accessed directly by the browser. The approved aesthetic is 2D/side-view, not realistic, top-down, regional, or 3D.
 
 - The **domain layer** owns selection and visual mapping, with pure functions and tests.
 - The **data layer** handles fetch, abort, parsing, errors, cache, and normalization.
@@ -116,11 +117,11 @@ GitHub Pages is **not intended or allowed as free hosting primarily for commerci
 
 ## 6. Visual and UX rules — owner approval required
 
-**Before implementation:** Present realistic approved-size mockups for a garden with up to **10 repositories** and an expanded example with **50 repositories**, plus the compact Try Your Own dialog. Explain exactly what rendering/components can achieve. Wait for owner approval **before** choosing or implementing visual shapes and layout.
+**Design baseline approved:** The owner approved the design direction recorded in [DESIGN_BRIEF.md](./DESIGN_BRIEF.md). Work can choose individual plant silhouettes, a harmonious palette within the approved colors, decorative scenery, spacing, small transitions, and responsive presentation **without seeking approval for each micro-decision**. Work should produce real browser previews/screenshots of both a 10-repo and 50-repo garden before final sign-off. Ask only when proposing a **material departure** from the approved brief.
 
 - Scene quality beats feature count: cohesive **pixel art**, a mostly full-viewport garden, and minimal menu/UI.
-- Keep all decorative choices provisional until owner-approved: species, palette, pixel scale, paths, buildings, props, lighting, animations, and typography.
-- The home view shows a tasteful sample garden. The scene should not be obstructed by a large headline, input form, dashboard, or repo-chip row.
+- Individual decorative choices are **delegated**: species details (4–6 families), pixel scale, natural paths, stones, plants, restrained animation, and typography may be chosen by the agent within the approved cozy cartoon direction. Do not add cultural architecture or location-specific props.
+- The home view shows a tasteful sample garden in a **generic fantasy setting**. Keep the **side-view / subtly layered cartoon** look; no Iranian, region-specific, or other recognizable cultural motifs. The scene must not be obstructed by a large headline, input form, dashboard, or repo-chip row.
 - One repository maps to one plant; the **default terrain has ten slots**. Additional slots extend the scene in connected horizontal sections; no page-by-page switch, zoom, or minimap.
 - Use simple native horizontal scrolling on touch and keyboard; optional mouse drag must not swallow click/selection events. Give a subtle hint if more content exists offscreen.
 - Repository details appear on click, tap, or focus; do not render fifty permanent text labels.
@@ -148,7 +149,7 @@ GitHub Pages is **not intended or allowed as free hosting primarily for commerci
 - Prefer a lockfile, repeatable installs, lint checks, unit tests, and a clean production build.
 - Test contained horizontal garden scrolling, 0/1/10/11/50/100 repository layouts, keyboard/touch focus, reduced-motion, offline behavior, rate limits, and the Pages base path.
 - Keep feature changes narrow and reviewable; use focused PRs for implementation by default, unless the owner explicitly asks for direct changes on main.
-- Never auto-merge, deploy a new capability, add a paid service, change permissions, expand scope, **or decide visual elements** without owner approval.
+- Never auto-merge, deploy a new capability, add a paid service, change permissions, expand scope, or **materially deviate from DESIGN_BRIEF.md** without owner approval. Small in-brief visual decisions are delegated.
 - Mark an item complete in the plan **only after** acceptance checks pass.
 
 ## 9. Release gate / Definition of Done
@@ -167,13 +168,13 @@ The MVP can be called released only when:
 
 ## 10. Change control
 
-If new functionality or **visual decisions** conflict with the agreed mockup, the ten-slot expansion rule, the static-only deployment, or require auth, storage, tracking, paid services, or a more complex renderer:
+If new functionality or a **material visual decision** conflicts with the approved design brief, the ten-slot expansion rule, the static-only deployment, or requires auth, storage, tracking, paid services, or a more complex renderer:
 
 1. Record the reason and user benefit.
 2. Estimate the implementation and maintenance cost.
 3. Review security/privacy and GitHub Pages compatibility.
 4. Update this charter and the task plan.
-5. Obtain explicit approval **before** implementation. In particular, no new plant type, scenery style, visual library, significant UI layout, or interaction model is selected unilaterally.
+5. Obtain explicit approval **before implementing a material deviation**. Routine choices of leaf shapes, plant families within the approved 4–6 range, natural decorations, colors within the approved palette, and micro-interactions are explicitly delegated; do not block on them.
 
 ## 11. Official reference documentation
 
