@@ -1,6 +1,6 @@
 # Pixel Garden — Implementation Plan
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Last reviewed:** 2026-11-11  
 **Status:** Planning only — implementation has not started  
 **Repository:** https://github.com/fatemeh-mohseni-AI/pixel-garden  
@@ -10,29 +10,31 @@
 
 ## 1. Target outcome
 
-Deliver a polished, mobile-friendly pixel-art garden that turns a GitHub user's **public repositories** into up to **nine interactive plants**. The user can inspect each plant and export an image. The application must be deployable as static files to GitHub Pages, with no application server, credentials, or paid services.
+Deliver a polished, mobile-friendly, **nearly full-viewport pixel-art garden** on a single page. The home screen begins with a clearly marked example garden and a compact **Try Your Own** button that opens a GitHub username/profile-link dialog. **1–10 repositories fit in one default garden scene; from repository 11 onward the same continuous garden grows horizontally**, with simple scrolling or dragging to explore it. Each repository is represented by one plant (up to the MVP API retrieval cap). Visitors can inspect plants. The application must be deployable as static files to GitHub Pages, without a server, login, credentials, or paid services. **Full-garden PNG export is deferred until after MVP.**
 
 **Initial hosting target (once enabled and deployed):** https://fatemeh-mohseni-AI.github.io/pixel-garden/
 
 ### MVP user journey
 
-1. Open the site and see an inviting, accessible landing screen.
-2. Enter a GitHub username and select **Grow my garden**.
-3. The browser fetches the account's public repositories.
-4. The app selects up to nine repositories using documented, repeatable rules.
-5. Each repository appears as a plant in one cohesive, pixel-art garden.
-6. Select a plant to view its name, primary language, star count, last push date, and GitHub link.
-7. Save the visible garden as a PNG; optionally share a URL containing the username.
+1. Open the site directly into a **full-size example garden** (up to ten clearly labeled sample repositories); the header is compact and does not displace the scene.
+2. Select **Try Your Own**; a small accessible dialog accepts a GitHub username or profile URL.
+3. The browser requests the account's public repositories (the first 100 at most in MVP).
+4. With **0 repositories**, show a welcoming empty garden. With **1–10**, use the fixed default garden footprint.
+5. With **11–100**, append contiguous garden sections of up to ten plant slots each, growing the world **horizontally**, without shrinking all plants to fit.
+6. Navigate the expanded garden with **native horizontal touch scrolling / scrolling**, optional simple mouse drag, and keyboard-accessible navigation. No zoom or minimap.
+7. Select or focus a plant to view repository details and follow its GitHub link; repository labels are not permanently overlaid on every plant.
 
 ### MVP success criteria
 
-- A working public GitHub username generates a consistent garden on desktop and mobile.
+- The default home view is **mostly garden**, with minimal navigation and a compact **Try Your Own** entry point.
+- A clearly identified example garden loads without requiring the visitor to call GitHub's API.
+- A real public GitHub username **or profile URL** generates a repeatable garden.
+- **1–10 repos:** a complete fixed-size garden with no world expansion. **11 and 50 repos:** an expanded, scrollable garden containing all retrieved plants without overlap or forced shrink-to-fit.
+- The horizontal garden remains navigable on mouse, touch, and keyboard without interfering with plant selection.
 - A user with zero repositories sees a friendly empty-garden state.
-- Missing users, network failure, and API rate limits show actionable messages rather than a blank screen.
-- All plants are usable with keyboard, mouse, and touch.
-- The garden image export works without embedding remote images that would taint a canvas.
-- A production build loads correctly at the repository subpath **/pixel-garden/**.
-- No server, database, login, private data, or client-side API secrets are required.
+- Missing users, network failures, and GitHub API limits have actionable messages.
+- A production build loads correctly at **/pixel-garden/**.
+- No server, database, login, private data, client-side secrets, zoom system, minimap, or full-garden export is required.
 
 ## 2. Assumptions and explicit decisions
 
@@ -41,10 +43,13 @@ Deliver a polished, mobile-friendly pixel-art garden that turns a GitHub user's 
 - **Data:** unauthenticated GitHub REST API, public repositories only.
 - **Initial API shape:** GET https://api.github.com/users/{username}/repos?type=owner&sort=pushed&direction=desc&per_page=100&page=1
 - **Pagination:** the MVP examines at most the first 100 repositories; if a profile exceeds that, disclose the selection limit rather than implying complete coverage.
-- **Selection:** prefer non-fork repositories; use forks as a fallback if fewer than nine remain. Sort the candidate set deterministically by most recent pushed_at, then stars, then repository name. Limit to nine.
+- **Selection:** show **all retrieved public repositories, up to 100**. Order deterministically by most recent pushed_at, then stars, then repository name. Forks may appear but are never silently hidden. Do not truncate to the first ten: ten is the **initial garden capacity**, not a repository cap.
 - **Metadata meanings:** pushed_at is a repository push timestamp, **not** proof that the profile owner made a commit; stars are popularity indicators, **not** code-quality scores.
 - **Visual mapping:** stable plant species from primary language; bounded growth levels from stars; gentle decorative cues from push recency. Unknown or null metadata has safe defaults.
-- **Navigation:** single-page screen and optional ?user=USERNAME query string; no server-dependent deep routes.
+- **Layout and navigation:** one page, a near-full-viewport garden, a slim header and **Try Your Own** dialog. Ten stable plant positions form the default scene; additional contiguous segments of up to ten slots extend the terrain **to the right**. Use native overflow-x scrolling/touch and a lightweight optional mouse-drag enhancement; preserve keyboard scrolling and plant focus. No zoom, camera engine, minimap, search, multi-page navigation, or permanently visible per-plant labels.
+- **Demo mode:** default demo repositories are clearly presented as samples. Prefer a small local fixture with explicitly fictional example data, so landing does not consume GitHub API requests; never imply placeholder statistics are real.
+- **Visual approval rule:** before implementation of any artistic or layout choice (palette, pixel scale, shapes, plants, scenery, typography, UI placement, animations), show the owner the intended visual treatment and obtain approval. A generated concept picture is **not** proof that the assets can be implemented faithfully.
+- **Image export:** deferred to P2 because a growing, horizontally scrollable garden makes whole-scene export substantially harder.
 - **Persistence:** none required. Optional short-lived browser cache for public responses only.
 
 Changes to these decisions require an explicit note in the companion rules document.
@@ -56,17 +61,17 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 ### Phase 0 — Define the product (P0)
 
 - [x] **PG-001 (S):** Record the project plan, guardrails, constraints, and MVP scope in repository documentation. **Done when:** both planning files exist on main.
-- [ ] **PG-002 (S):** Confirm the final visual direction: pixel scale, palette, garden dimensions, and 4–6 initial plant silhouettes. **Done when:** a small visual-spec section or mockup is approved.
-- [ ] **PG-003 (S):** Finalize deterministic selection and plant-mapping examples, including null values and large star counts. **Done when:** a data-mapping table and examples are approved.
+- [ ] **PG-002 (S):** Present realistic mockups of **both a ≤10-repo garden and a 50-repo extended garden**, plus a lightweight mockup of the Try Your Own dialog. Agree with the owner on pixel scale, palette, plant silhouettes, terrain, typography, spacing, and motion before implementing visual decisions. **Done when:** owner explicitly approves the designs.
+- [ ] **PG-003 (S):** Agree on stable repository ordering, plant mapping and slot layout for 0/1/10/11/50/100 repos, including null values. **Done when:** a mapping table and horizontal expansion rules are reviewed and approved.
 - [ ] **PG-004 (S):** Select an explicit code/art license and verify third-party asset license compatibility. **Done when:** the owner approves a LICENSE file; public access alone does not grant reuse rights.
 
-**Gate:** no application scaffolding until the visual direction and core mapping rules are settled.
+**Gate:** do not start implementation or choose final visual assets until the owner approves the full-page visual mockups and mapping rules. No visual changes by assumption.
 
 ### Phase 1 — Bootstrap and foundations (P1)
 
 - [ ] **PG-005 (S):** Create Vite + React + TypeScript app with a clean source layout. **Done when:** local dev, production build, and preview all run.
 - [ ] **PG-006 (S):** Set up linting, formatting, strict TypeScript, and package-lock. **Done when:** quality commands pass on a clean checkout.
-- [ ] **PG-007 (S):** Establish design tokens (pixel grid, typography, colors, spacing) and semantic page structure. **Done when:** one responsive shell is visible with no data dependency.
+- [ ] **PG-007 (S):** Implement **approved** design tokens, near-full-viewport garden shell, compact header, and dialog semantics. **Done when:** the responsive shell matches the agreed mockup without replacing the garden with cards.
 - [ ] **PG-008 (S):** Add a small unit-test setup and sample test. **Done when:** tests run in one command.
 - [ ] **PG-009 (S):** Configure Vite's production base path for /pixel-garden/ and asset URL discipline. **Done when:** production preview and subpath smoke checks pass.
 
@@ -74,9 +79,9 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 
 ### Phase 2 — GitHub data and domain rules (P1)
 
-- [ ] **PG-010 (S):** Build username input and validation (trim spaces, reject invalid forms, prevent duplicate submits). **Done when:** keyboard submit and clear errors work.
+- [ ] **PG-010 (S):** Validate both GitHub usernames and github.com profile links in the compact Try Your Own dialog; prevent duplicate submits. **Done when:** Enter, Escape, focus return, and useful error messages work.
 - [ ] **PG-011 (M):** Write a typed GitHub REST client with AbortController and response/error handling. **Done when:** public accounts work; 404, 403/429, and offline cases have typed outcomes.
-- [ ] **PG-012 (S):** Normalize API data and select up to nine repositories deterministically. **Done when:** order and fork fallback are covered by tests.
+- [ ] **PG-012 (S):** Normalize and consistently order up to the first 100 retrieved repositories **without reducing them to ten**; disclose the one-page API cap. **Done when:** 0/1/10/11/50/100 cases and tie ordering are tested.
 - [ ] **PG-013 (M):** Implement pure, deterministic repo-to-plant mapping. **Done when:** the same repository metadata produces the same plant with safe defaults.
 - [ ] **PG-014 (S):** Add loading, empty, unavailable, and rate-limited UI states. **Done when:** no state produces a blank screen or an uncontrolled retry loop.
 - [ ] **PG-015 (S):** Minimize requests with in-memory caching and optional short TTL browser caching. **Done when:** repeated renders do not refetch and the cache is documented.
@@ -85,28 +90,28 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 
 ### Phase 3 — The actual pixel garden (P1)
 
-- [ ] **PG-016 (M):** Build one cohesive scene with soil, paths, ambient details, and nine defined plant positions. **Done when:** it feels like a garden rather than nine disconnected cards.
-- [ ] **PG-017 (M):** Design 4–6 reusable pixel-art plant species with 2–3 growth variations. **Done when:** small, medium, and large plants are visually distinct without heavy assets.
-- [ ] **PG-018 (S):** Add focusable, clickable plants and a detail panel with external GitHub links. **Done when:** mouse, touch, and keyboard access yield equivalent information.
-- [ ] **PG-019 (M):** Make the garden responsive and robust to unusually long names. **Done when:** common phone and desktop widths have no horizontal overflow.
-- [ ] **PG-020 (S):** Add subtle motion with prefers-reduced-motion support. **Done when:** motion can be reduced and no animation blocks interaction.
+- [ ] **PG-016 (M):** Build the **approved** cohesive, mostly full-viewport scene with **ten plant slots** and a clearly marked sample garden on landing. **Done when:** the first ten plants fit naturally without separate cards or a dominant hero form.
+- [ ] **PG-017 (M):** Implement the **owner-approved** minimal set of reusable pixel-art plant species and two simple growth tiers. **Done when:** plants remain identifiable without a large asset inventory or game engine.
+- [ ] **PG-018 (S):** Add focusable, clickable plants with a compact details popover and safe external GitHub link. **Done when:** mouse, touch, and keyboard behave consistently; labels are not permanently shown over every plant.
+- [ ] **PG-019 (M):** Make the terrain extend in contiguous **ten-slot segments** once there are 11+ repositories. Use simple, accessible **horizontal overflow scrolling** (touch natively, optional mouse dragging), with obvious scroll affordance and no unintentional page-wide overflow. **Done when:** 10 fits one scene, 11 expands, 50 plants are reachable, focus can scroll a plant into view, and clicks remain reliable.
+- [ ] **PG-020 (S):** Add at most a few subtle, owner-approved CSS movements; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
 - [ ] **PG-021 (S):** Polish contrast, loading visuals, empty soil plots, and unknown-language plants. **Done when:** edge-case gardens still look intentional.
 
 **Gate:** visual and accessibility review of a desktop and mobile garden.
 
-### Phase 4 — Sharing and polish (P1)
+### Phase 4 — Minimal user experience and polish (P1)
 
-- [ ] **PG-022 (M):** Implement client-side PNG export of the garden scene. **Done when:** exported image matches the garden, contains no clipped labels, and has no CORS/canvas errors.
-- [ ] **PG-023 (S):** Support an optional ?user=USERNAME link that reconstructs the same garden. **Done when:** a copied link opens correctly under /pixel-garden/.
-- [ ] **PG-024 (S):** Add friendly success/error feedback and first-use explanation. **Done when:** a first-time visitor understands the interaction without instructions.
-- [ ] **PG-025 (S):** Tune for mobile and slow connections; remove nonessential heavy assets. **Done when:** experience remains useful on a throttled network.
+- [ ] **PG-022 (S):** Provide a small local demo-repository fixture (no fake stats presented as real) and a default 1–10-plant garden. **Done when:** the site displays a useful demo without any network access.
+- [ ] **PG-023 (S):** Complete the **Try Your Own** dialog and optional ?user=USERNAME link. **Done when:** the demo can be replaced with a user's garden and the URL works under /pixel-garden/.
+- [ ] **PG-024 (S):** Provide tiny, nonintrusive guidance such as **Drag/scroll to explore** only when the garden exceeds ten plants; clarify loading/errors. **Done when:** first-time visitors can discover additional garden sections.
+- [ ] **PG-025 (S):** Tune for mobile/slow connections; simplify or remove nonessential decorations. **Done when:** the expanded garden is usable on a phone and no expensive animation is required.
 
 **Gate:** complete end-to-end journey works without credentials.
 
 ### Phase 5 — Quality, deployment, and launch (P1)
 
-- [ ] **PG-026 (M):** Test sorting, mappings, missing data, invalid usernames, and request failures with fixtures/mocks. **Done when:** critical logic is covered by automated tests.
-- [ ] **PG-027 (M):** Run manual cross-browser, keyboard, reduced-motion, accessibility, and responsive checks. **Done when:** launch-blocking defects are fixed.
+- [ ] **PG-026 (M):** Test sorting, plant mapping, layout growth (0/1/10/11/50/100), invalid usernames/URLs, and request failures with fixtures/mocks. **Done when:** core behaviors are covered.
+- [ ] **PG-027 (M):** Check desktop/mobile browsers, native scrolling, optional drag, keyboard plant focus, dialog accessibility, reduced-motion, and responsive behavior. **Done when:** all plants remain reachable and launch-blocking defects are fixed.
 - [ ] **PG-028 (S):** Run a production-build smoke test for base URL, assets, direct refresh, and query-string links. **Done when:** no asset 404s occur at the GitHub Pages path.
 - [ ] **PG-029 (M):** Add and validate a GitHub Actions workflow to publish only the built dist/ artifact. **Done when:** a successful deployment reports the actual Pages URL.
 - [ ] **PG-030 (S):** Update README with genuine screenshots, local setup, data limitations, live URL, and license. **Done when:** published claims match the shipped app.
@@ -130,14 +135,15 @@ Keep domain logic framework-independent and independently testable.
 | Risk | Impact | Mitigation |
 | --- | --- | --- |
 | Unauthenticated GitHub API limit (60 requests/hour/IP, normally) | Public visitors may be rate-limited | Minimize calls, short cache, clear retry guidance, never loop retries |
-| User owns many repositories | Incomplete input set | Limit first page to 100 and visibly document this in the UI |
+| User owns many repositories | Width/performance and possible incomplete input set | Extend 10-slot sections horizontally; limit first API page to 100, disclose cap; test 50+ items |
 | Missing language / pushed_at / description | Broken layout or mapping | Typed nullable fields and fallback art |
 | No repos / only forks | Empty or sparse garden | Friendly empty state; documented fork fallback |
-| Browser export of external images | Tainted canvas / failed PNG | Prefer locally bundled SVG/CSS art; avoid cross-origin images in export |
+| Full-garden image export | Large offscreen rendering would complicate MVP | Move full-garden PNG export to post-MVP; keep local assets so it remains feasible later |
 | GitHub Pages subpath | Broken JS/CSS or 404 refreshes | Vite base /pixel-garden/; single route + query parameters; smoke test |
 | Excessive visual polish / feature creep | Delayed MVP | Fixed acceptance criteria and an explicit post-MVP backlog |
 | Third-party pixel art license | Compliance problem | Prefer original artwork, track asset license and attribution |
-| Slow mobile devices | Janky animation | Limit animated elements; respect reduced motion; profile before adding libraries |
+| Slow mobile devices | Janky scrolling or animation | Keep scene lightweight; native overflow; reduced-motion; avoid complex renderers |
+| Dense scene with many projects | Overlap or unreadable labels | Fixed plant slots, bounded sizes, details on interaction rather than permanent text |
 
 ## 6. Definition of Done for each implementation task
 
@@ -156,6 +162,8 @@ Keep domain logic framework-independent and independently testable.
 - Tiny animals, easter eggs, and rare plants.
 - Garden themes and manual plant arrangement.
 - More plant species and advanced animation.
+- **Full-garden PNG export**, including offscreen sections (explicitly postponed).
+- Optional zoom, minimap, repository search, and advanced pan/virtualization (only if real usage justifies them).
 - Saved galleries or comparisons (would require a separate privacy/hosting decision).
 - Authentication and private repository data (requires a new architecture/security review).
 
