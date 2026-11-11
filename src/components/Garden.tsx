@@ -1,4 +1,5 @@
 import {
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -7,13 +8,18 @@ import {
 import {
   gardenSections,
   plantFor,
+  SECTION_SIZE,
   SLOTS,
   type Repository,
 } from '../domain/garden';
+import { useReaction } from '../hooks/useReaction';
+import { GardenNeighbors } from './GardenNeighbors';
 import type { LookupState } from './LookupDialog';
 import { Icon } from './Icons';
 import { Landscape } from './Landscape';
+import { NightMoon } from './NightScenery';
 import { Plant } from './Plant';
+import type { PlantReaction } from './PlantReactions';
 
 const date = new Intl.DateTimeFormat('en', {
   dateStyle: 'medium',
@@ -36,9 +42,22 @@ export function Garden({
   lookup,
   openLookup,
 }: Props) {
-  const sections = gardenSections(repositories);
+  const sections = useMemo(() => {
+    const latestPush = repositories[0]?.pushedAt ?? null;
+    return gardenSections(repositories).map((section) =>
+      section.map((repository) => ({
+        repository,
+        style: plantFor(repository, latestPush),
+      })),
+    );
+  }, [repositories]);
   const expanded = sections.length > 1;
-  const latestPush = repositories[0]?.pushedAt ?? null;
+  const [cottageOpen, setCottageOpen] = useState(false);
+  const [reaction, react] = useReaction<{
+    repository: Repository;
+    kind: PlantReaction;
+  }>(1750);
+  const nextDiscovery = useRef(0);
   const [current, setCurrent] = useState(0);
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const selected =
@@ -63,9 +82,17 @@ export function Garden({
     repository: Repository,
     button: HTMLButtonElement,
     focusDetails = false,
+    celebrate = false,
   ) {
     if (returningFocus.current) return;
     opener.current = button;
+    setCottageOpen(false);
+    if (
+      (celebrate || selectedId !== repository.id) &&
+      plantFor(repository).stage === 'rare'
+    ) {
+      react({ repository, kind: 'celebrate' });
+    }
     if (focusDetails) {
       if (heading.current && selected?.id === repository.id) {
         heading.current.focus({ preventScroll: true });
@@ -85,6 +112,40 @@ export function Garden({
           : stage.getBoundingClientRect().width * index;
       stage.scrollTo({ left });
     }
+  }
+
+  function changeCottage(open: boolean) {
+    if (open) setSelectedId(null);
+    setCottageOpen(open);
+  }
+
+  function bringPlantIntoView(repository: Repository) {
+    const stage = viewport.current;
+    const button = stage?.querySelector<HTMLButtonElement>(
+      `[data-repository-id="${repository.id}"]`,
+    );
+    if (!stage || !button) return null;
+    const bounds = button.getBoundingClientRect();
+    const visible = stage.getBoundingClientRect();
+    if (bounds.left < visible.left || bounds.right > visible.right) {
+      pan(Math.floor(repositories.indexOf(repository) / SECTION_SIZE));
+    }
+    return button;
+  }
+
+  function discoverProject() {
+    if (!repositories.length) return;
+    const index =
+      repositories.length - 1 - (nextDiscovery.current++ % repositories.length);
+    const repository = repositories[index]!;
+    const button = bringPlantIntoView(repository);
+    if (button) inspect(repository, button, true, true);
+  }
+
+  function waterPlant() {
+    if (!selected) return;
+    bringPlantIntoView(selected);
+    react({ repository: selected, kind: 'water' });
   }
 
   function handleStageKeys(event: KeyboardEvent<HTMLDivElement>) {
@@ -140,6 +201,14 @@ export function Garden({
               key={sectionIndex}
             >
               <Landscape section={sectionIndex} />
+              {sectionIndex === 0 && (
+                <GardenNeighbors
+                  cottageOpen={cottageOpen}
+                  canDiscover={repositories.length > 0}
+                  onCottageChange={changeCottage}
+                  onDiscover={discoverProject}
+                />
+              )}
               {!repositories.length && (
                 <>
                   <div className="soil" aria-hidden="true" />
@@ -150,7 +219,7 @@ export function Garden({
                   </div>
                 </>
               )}
-              {section.map((repository, slotIndex) => {
+              {section.map(({ repository, style }, slotIndex) => {
                 const slot = SLOTS[slotIndex]!;
                 const placement = {
                   '--slot-x': `${slot.x}%`,
@@ -163,6 +232,7 @@ export function Garden({
                     className={`plant-button ${slotIndex < 5 ? 'plant-button--back' : 'plant-button--front'}`}
                     type="button"
                     key={repository.id}
+                    data-repository-id={repository.id}
                     style={placement}
                     aria-label={`Inspect ${repository.name}`}
                     aria-expanded={selected?.id === repository.id}
@@ -180,16 +250,35 @@ export function Garden({
                         repository,
                         event.currentTarget,
                         event.detail === 0,
+                        true,
                       )
                     }
                   >
-                    <Plant style={plantFor(repository, latestPush)} />
+                    <Plant
+                      style={style}
+                      reaction={
+                        reaction?.value.repository.id === repository.id
+                          ? {
+                              kind: reaction.value.kind,
+                              revision: reaction.revision,
+                            }
+                          : undefined
+                      }
+                    />
                   </button>
                 );
               })}
             </div>
           ))}
         </div>
+        <NightMoon />
+        <span className="sr-only" role="status">
+          {reaction?.value.kind === 'water' && (
+            <span key={reaction.revision}>
+              Watered {reaction.value.repository.name}.
+            </span>
+          )}
+        </span>
 
         {lookup.status !== 'idle' && (
           <div className="scene-message" role="status">
@@ -265,17 +354,26 @@ export function Garden({
                 </dd>
               </div>
             </dl>
-            {selected.url && (
-              <a
-                className="repository-link"
-                href={selected.url}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="plant-actions">
+              {selected.url && (
+                <a
+                  className="repository-link"
+                  href={selected.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on GitHub <Icon name="external" width="16" height="16" />
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+              <button
+                className="water-button"
+                type="button"
+                onClick={waterPlant}
               >
-                View on GitHub <Icon name="external" width="16" height="16" />
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            )}
+                <Icon name="water" width="16" height="16" /> Water Plant
+              </button>
+            </div>
           </section>
         )}
       </div>
@@ -318,8 +416,7 @@ export function Garden({
         ) : (
           repositories.length > 0 && (
             <p className="plant-hint">
-              <Icon name="pointer" width="15" height="15" /> Select a plant for
-              details
+              <Icon name="pointer" width="15" height="15" /> Explore the garden
             </p>
           )
         )}

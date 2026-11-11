@@ -32,6 +32,7 @@ function messageFor(error: unknown, username: string) {
 }
 
 export function App() {
+  const [night, setNight] = useState(false);
   const [garden, setGarden] = useState<GitHubGarden | null>(null);
   const [lookup, setLookup] = useState<LookupState>(idle);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -112,7 +113,7 @@ export function App() {
   }
 
   return (
-    <div className="app">
+    <div className="app" data-time={night ? 'night' : 'day'}>
       <header className="site-header">
         <div className="brand">
           <img
@@ -123,16 +124,28 @@ export function App() {
           />
           <span>Pixel Garden</span>
         </div>
-        <button
-          className="primary-button try-button"
-          ref={tryButton}
-          type="button"
-          onClick={openLookup}
-          aria-haspopup="dialog"
-        >
-          <Icon name="sprout" width="18" height="18" />
-          Try Your Own
-        </button>
+        <div className="site-header-actions">
+          <button
+            className="icon-button time-toggle"
+            type="button"
+            aria-label="Night mode"
+            title="Night mode"
+            aria-pressed={night}
+            onClick={() => setNight((previous) => !previous)}
+          >
+            <Icon name={night ? 'moon' : 'sun'} width="19" height="19" />
+          </button>
+          <button
+            className="primary-button try-button"
+            ref={tryButton}
+            type="button"
+            onClick={openLookup}
+            aria-haspopup="dialog"
+          >
+            <Icon name="sprout" width="18" height="18" />
+            Try Your Own
+          </button>
+        </div>
       </header>
       <Garden
         key={garden?.username ?? 'example:'}

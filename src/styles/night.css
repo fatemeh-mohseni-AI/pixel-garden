@@ -1,0 +1,159 @@
+.app[data-time='night'] {
+  --sky-top: #202347;
+  --sky-middle: #414071;
+  --sky-horizon: #77678b;
+  --cloud-shadow: #44466a;
+  --cloud-main: #595783;
+  --cloud-light: #65638e;
+  --cloud-base: #4a4b73;
+  --hill-far: #5b5a80;
+  --hill-light: #66658a;
+  --hill-middle: #4b5676;
+  --hill-near: #414f6d;
+  --pine-dark: #30465a;
+  --pine-edge: #3e5870;
+  --pine-mid-dark: #3b5266;
+  --pine-mid: #526881;
+  --pine-root-dark: #2a3e52;
+  --pine-root: #354d64;
+  --pine-light: #657791;
+  --tree-trunk: #344651;
+  --tree-bark: #455563;
+  --tree-edge: #304955;
+  --tree-middle: #3e656a;
+  --tree-light: #4a7679;
+  --tree-glint: #5e8589;
+  --tree-shade: #34585c;
+  --grass-top: #54796d;
+  --grass-bottom: #406b63;
+  --grass-ridge: #4b6d62;
+  --grass-rim: #66877b;
+  --grass-dip: #496d62;
+  --grass-shadow: #395e58;
+  --grass-bank: #4a7167;
+  --path-edge: #385953;
+  --path-top: #8a7488;
+  --path-bottom: #9a8090;
+  --path-rim: #a5899b;
+  --path-shade: #705e77;
+  --path-grain: #79677e;
+  --bush-edge: #3a6259;
+  --bush-mid: #4d796d;
+  --bush-light: #5f8b7e;
+  --grass-fleck-light: #6b9280;
+  --grass-fleck-dark: #3d6458;
+  --grass-fleck-mid: #557d69;
+  --fern-dark: #345d52;
+  --fern-light: #578470;
+  --flower-stem: #3f6657;
+  --flower-peach: #bd8c8d;
+  --flower-pink: #bd90aa;
+  --flower-ivory: #d0c1be;
+  --flower-center: #a78a79;
+  --stone-shadow: #395f53;
+  --stone-mid: #676e7b;
+  --stone-light: #8b8a99;
+  --stone-dark: #576573;
+  --stepping-stone: #8a7b89;
+  --plant-dusk: 26%;
+  --plant-soil-shadow: #274f4a;
+  --plant-soil-light: #527566;
+  background: #171c32;
+  color: #f2e9dc;
+}
+
+.site-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.time-toggle {
+  box-shadow: 0 2px 0 #c2c5aa;
+}
+.app[data-time='night'] .time-toggle {
+  background: #373458;
+  border-color: #786e9c;
+  color: #ffe2a8;
+  box-shadow: 0 2px 0 #11172a;
+}
+.app[data-time='night'] .time-toggle:hover {
+  background: #454067;
+}
+.app[data-time='night'] .site-header button:focus-visible,
+.app[data-time='night'] .garden-nav button:focus-visible {
+  outline-color: #ffe2a8;
+}
+.app[data-time='night'] .stage {
+  border-color: #606789;
+  background: #202347;
+}
+.app[data-time='night'] .garden-footer,
+.app[data-time='night'] .garden-footer svg {
+  color: #d0cce2;
+}
+.app[data-time='night'] .garden-nav .icon-button {
+  background: #393751;
+  border-color: #716a87;
+}
+.app[data-time='night'] .garden-nav .icon-button:hover {
+  background: #484461;
+}
+.app[data-time='night'] .garden-scroll {
+  scrollbar-color: #8e88ae #3e415e;
+}
+
+.garden-tag,
+.cap-note,
+.scene-message,
+.empty-garden {
+  color: var(--ink);
+}
+
+.night-scene {
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+.app[data-time='night'] .night-scene {
+  opacity: 1;
+}
+.night-moon {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  top: 5%;
+  right: 15%;
+  width: clamp(75px, 11vw, 144px);
+}
+.sun-position {
+  transition: opacity 220ms ease;
+}
+.app[data-time='night'] .sun-position {
+  opacity: 0;
+}
+.app[data-time='night'] .night-fireflies {
+  animation: fireflies-appear 1.8s ease-out 1;
+}
+
+@keyframes fireflies-appear {
+  0%,
+  30% {
+    opacity: 0.25;
+  }
+  65% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 0.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .night-scene,
+  .sun-position {
+    transition: none;
+  }
+  .app[data-time='night'] .night-fireflies {
+    animation: none;
+  }
+}
