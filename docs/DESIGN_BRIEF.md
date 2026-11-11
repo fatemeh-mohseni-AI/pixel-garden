@@ -17,7 +17,7 @@ The garden remains cohesive and attractive whether there are one, ten, or fifty 
 
 1. **View angle:** friendly **side-view / slightly layered 2D** cartoon garden; not a top-down map and not a real 3D/isometric game engine. Simple foreground/background layers are fine.
 2. **Art direction:** **cozy, cute, pixel-inspired cartoon** with simplified silhouettes, pleasantly crisp details, and original reusable SVG/CSS artwork. No photographic or realistic imagery.
-3. **Setting:** **generic, fictional fantasy garden with no Iranian elements, no recognizable country-specific cultural motifs, and no heritage architecture**. Avoid architecture and props that imply an identifiable region. Natural garden scenery is enough.
+3. **Setting:** **generic, fictional fantasy garden with no Iranian elements, no recognizable country-specific cultural motifs, and no heritage architecture**. Avoid architecture and props that imply an identifiable region. Include one small fantasy cottage, a cat, and two birds as scenery in the first section.
 4. **Color:** **bright, soft, cheerful palette** — friendly greens, sky blues, warm path/soil colors, and restrained colorful flower accents. No cyberpunk neon, aggressively dark palette, or hyperrealistic rendering.
 5. **Page structure:** **one main page**, **tiny/slim header**, and a **large garden occupying most of the viewport**. A large headline/hero panel must not compete with the garden.
 6. **Primary action:** a small **Try Your Own** header button opens an accessible **modal/dialog** for a GitHub username or profile URL. No permanently expanded input panel.
@@ -25,7 +25,7 @@ The garden remains cohesive and attractive whether there are one, ten, or fifty 
 8. **Repository capacity:** **1–10 repositories use the default garden footprint**. Starting at **11 repositories**, add seamlessly connected garden terrain **horizontally** in groups of up to ten plants; do **not** shrink all plants to force them onto one screen.
 9. **Movement:** extremely simple **native horizontal scrolling** on expanded gardens, with touch and keyboard support. Optionally a small drag-to-pan enhancement if it remains reliable. **No zoom, minimap, camera/game engine, or multiple pages.**
 10. **Repository identity:** the **plant is the primary visual**; don't show a permanent label above each plant. Show repo name, language, stars, last update/push, and a safe GitHub link in a small popover/panel on click/tap/focus.
-11. **Variety:** **4–6 reusable plant families** (for example flower, bush, leafy plant, cactus-like plant, vine, small tree) mapped to languages; only a small number of growth/bloom variants based on bounded star tiers. Subtle recency decoration may be included.
+11. **Variety:** **Five bounded star tiers** progress from sprouts to bushes, flowering bushes, large trees, and rare flowering trees. Languages influence the foliage and flower palette. Subtle recency decoration may be included.
 12. **Motion:** **very restrained** plant sway or gentle environmental motion, using light CSS/SVG animation and respecting prefers-reduced-motion. No physics or complex gameplay.
 
 ## 3. Layout blueprint
@@ -113,7 +113,7 @@ If an artistic choice is technically impossible, explain a realistic substitute 
 - [ ] Assets are locally bundled or permissively licensed; no secret tokens.
 - [ ] Static Vite build works on GitHub Pages at `/pixel-garden/`.
 
-**Post-MVP only:** full-world PNG export, seasons, day/night modes, more species, animals, custom themes, zoom, minimap, search, accounts, and multiplayer.
+**Post-MVP only:** full-world PNG export, seasons, day/night modes, more species, interactive animals, custom themes, zoom, minimap, search, accounts, and multiplayer.
 
 ## 8. Delivery and review protocol for Work
 

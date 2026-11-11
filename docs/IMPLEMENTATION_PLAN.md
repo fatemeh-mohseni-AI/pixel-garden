@@ -45,7 +45,7 @@ Deliver a polished, mobile-friendly, **nearly full-viewport pixel-art garden** o
 - **Pagination:** the MVP examines at most the first 100 repositories; if a profile exceeds that, disclose the selection limit rather than implying complete coverage.
 - **Selection:** show **all retrieved public repositories, up to 100**. Order deterministically by most recent pushed_at, then stars, then repository name. Forks may appear but are never silently hidden. Do not truncate to the first ten: ten is the **initial garden capacity**, not a repository cap.
 - **Metadata meanings:** pushed_at is a repository push timestamp, **not** proof that the profile owner made a commit; stars are popularity indicators, **not** code-quality scores.
-- **Visual mapping:** stable plant species from primary language; bounded growth levels from stars; gentle decorative cues from push recency. Unknown or null metadata has safe defaults.
+- **Visual mapping:** a stable palette from primary language and repository ID; five bounded growth stages from stars; gentle decorative cues from push recency. Unknown or null metadata has safe defaults.
 - **Layout and navigation:** one page, a near-full-viewport garden, a slim header and **Try Your Own** dialog. Ten stable plant positions form the default scene; additional contiguous segments of up to ten slots extend the terrain **to the right**. Use native overflow-x scrolling/touch and a lightweight optional mouse-drag enhancement; preserve keyboard scrolling and plant focus. No zoom, camera engine, minimap, search, multi-page navigation, or permanently visible per-plant labels.
 - **Demo mode:** default demo repositories are clearly presented as samples. Prefer a small local fixture with explicitly fictional example data, so landing does not consume GitHub API requests; never imply placeholder statistics are real.
 - **Visual approval rule:** The owner has already approved the macro direction in [DESIGN_BRIEF.md](./DESIGN_BRIEF.md). The agent has authority over small artistic details within the brief and should not repeatedly ask for approval. Ask only about material deviations (e.g. other viewpoint, style, page structure, interaction model, hosting or feature scope). AI-generated concepts are inspiration, not proof of implementation fidelity.
@@ -91,10 +91,10 @@ Each task must produce a reviewable artifact and pass its acceptance criteria be
 ### Phase 3 — The actual pixel garden (P1)
 
 - [x] **PG-016 (M):** Build the **approved** cohesive, mostly full-viewport scene with **ten plant slots** and a clearly marked sample garden on landing. **Done when:** the first ten plants fit naturally without separate cards or a dominant hero form.
-- [x] **PG-017 (M):** Implement 4–6 reusable **cozy cartoon / pixel-inspired** plant families, with two simple growth tiers. The agent chooses individual silhouettes and colors within DESIGN_BRIEF.md. **Done when:** plants are appealing and distinct without heavy assets or a game engine.
+- [x] **PG-017 (M):** Implement reusable **cozy cartoon / pixel-inspired** sprites for five star tiers, from sprouts to rare flowering trees. The agent chooses individual silhouettes and colors within DESIGN_BRIEF.md. **Done when:** plants are appealing and distinct without heavy assets or a game engine.
 - [x] **PG-018 (S):** Add focusable, clickable plants with a compact details popover and safe external GitHub link. **Done when:** mouse, touch, and keyboard behave consistently; labels are not permanently shown over every plant.
 - [x] **PG-019 (M):** Make the terrain extend in contiguous **ten-slot segments** once there are 11+ repositories. Use simple, accessible **horizontal overflow scrolling** (touch natively, optional mouse dragging), with obvious scroll affordance and no unintentional page-wide overflow. **Done when:** 10 fits one scene, 11 expands, 50 plants are reachable, focus can scroll a plant into view, and clicks remain reliable.
-- [x] **PG-020 (S):** Add at most a few subtle, owner-approved CSS movements; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
+- [x] **PG-020 (S):** Add subtle movement for the two decorative birds and cat in the first section; respect prefers-reduced-motion. **Done when:** turning motion off loses no information and never blocks scrolling or interaction.
 - [x] **PG-021 (S):** Polish contrast, loading visuals, empty soil plots, and unknown-language plants. **Done when:** edge-case gardens still look intentional.
 
 **Gate:** visual and accessibility review of a desktop and mobile garden.
@@ -161,7 +161,7 @@ Keep domain logic framework-independent and independently testable.
 ## 7. Post-MVP backlog (P2; not authorized for the first release)
 
 - Seasons and day/night mode.
-- Tiny animals, easter eggs, and rare plants.
+- Interactive animals, easter eggs, and additional rare plant variants.
 - Garden themes and manual plant arrangement.
 - More plant species and advanced animation.
 - **Full-garden PNG export**, including offscreen sections (explicitly postponed).

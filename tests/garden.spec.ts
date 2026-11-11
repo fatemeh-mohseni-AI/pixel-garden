@@ -41,6 +41,43 @@ test('lands on an offline-ready example, with no API traffic or broken assets', 
   );
 });
 
+test('renders visibly distinct growth stages and brief decorative motion', async ({
+  page,
+}) => {
+  await page.goto('./');
+  await expect(plants(page)).toHaveCount(10);
+  const heights = await page
+    .locator('[data-plant-stage]')
+    .evaluateAll((sprites) =>
+      Object.fromEntries(
+        sprites.map((sprite) => [
+          sprite.getAttribute('data-plant-stage'),
+          sprite.querySelector<SVGGElement>('.sprite')!.getBBox().height,
+        ]),
+      ),
+    );
+  const stages = ['sprout', 'bush', 'flowering', 'tree', 'rare'];
+  for (const [index, stage] of stages.entries()) {
+    expect(heights[stage]).toBeGreaterThan(
+      index === 0 ? 0 : heights[stages[index - 1]!]!,
+    );
+  }
+  expect(heights.rare!).toBeGreaterThan(heights.sprout! * 3);
+
+  await expect(page.locator('.garden-cottage')).toBeVisible();
+  await expect(page.locator('.garden-cat')).toBeVisible();
+  await expect(page.locator('.garden-bird')).toHaveCount(2);
+  const bird = page.locator('.bird-flight').first();
+  const tail = page.locator('.cat-tail');
+  await expect(bird).toHaveCSS('animation-name', 'none');
+  await expect(tail).toHaveCSS('animation-name', 'none');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect(bird).toHaveCSS('animation-name', 'bird-glide');
+  await expect(tail).toHaveCSS('animation-name', 'cat-tail');
+  await expect(bird).toHaveCSS('animation-iteration-count', '1');
+  await expect(tail).toHaveCSS('animation-iteration-count', '1');
+});
+
 test('manages dialog focus, validates input and grows a profile garden', async ({
   page,
 }) => {
@@ -109,6 +146,9 @@ for (const [count, sections] of [
         page.getByText('First 100 public repositories'),
       ).toBeVisible();
     if (sections > 1) {
+      await expect(page.locator('.garden-cottage')).toHaveCount(1);
+      await expect(page.locator('.garden-cat')).toHaveCount(1);
+      await expect(page.locator('.garden-bird')).toHaveCount(2);
       await landscape(page).focus();
       await page.keyboard.press('End');
       await expect

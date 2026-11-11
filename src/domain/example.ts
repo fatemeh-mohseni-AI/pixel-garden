@@ -10,13 +10,13 @@ const examples = [
   [
     'moonlit-maps',
     'TypeScript',
-    54,
+    2,
     'An illustrated atlas of imaginary walking trails.',
   ],
   [
     'grove-tools',
     'Rust',
-    24,
+    440,
     'Small tools for keeping a growing collection of notes tidy.',
   ],
   [
@@ -28,34 +28,34 @@ const examples = [
   [
     'pebble-scripts',
     'Shell',
-    31,
+    82,
     'Short command-line helpers for everyday chores.',
   ],
   [
     'wildflower.css',
     'CSS',
-    47,
+    21,
     'An assortment of tiny, reusable CSS drawings.',
   ],
   [
     'fern-and-fable',
     'Kotlin',
-    22,
+    8,
     'A collection of short stories for quiet evenings.',
   ],
   [
     'orchard-clock',
     'Go',
-    36,
+    146,
     'A friendly timer that helps you step away from your desk.',
   ],
   [
     'little-greenhouse',
     null,
-    3,
+    0,
     'Notes and drawings from a pocket-sized greenhouse.',
   ],
-  ['raspberry-patch', 'Ruby', 26, 'A fictional recipe book for berry season.'],
+  ['raspberry-patch', 'Ruby', 32, 'A fictional recipe book for berry season.'],
 ] as const;
 
 export const EXAMPLE_REPOSITORIES: Repository[] = examples.map(

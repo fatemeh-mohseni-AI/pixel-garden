@@ -1,4 +1,5 @@
-import { useId } from 'react';
+import { memo, useId } from 'react';
+import { GardenBirds, GardenCat, GardenCottage } from './SceneLife';
 
 function Cloud({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   return (
@@ -95,65 +96,89 @@ function Bush({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   );
 }
 
+const flowerPatches = [
+  [24, 414],
+  [185, 385],
+  [227, 432],
+  [359, 460],
+  [481, 415],
+  [616, 458],
+  [773, 432],
+  [902, 445],
+  [1007, 415],
+  [1125, 440],
+  [34, 574],
+  [107, 626],
+  [260, 602],
+  [390, 644],
+  [472, 589],
+  [542, 659],
+  [652, 617],
+  [761, 652],
+  [868, 589],
+  [948, 647],
+  [1044, 592],
+  [1131, 634],
+] as const;
+
 function MeadowDetails({ section }: { section: number }) {
-  const tufts = Array.from({ length: 104 }, (_, i) => {
-    const x = 5 + ((i * 137 + section * 89) % 1190);
-    const y = 340 + ((i * 31 + section * 37) % 337);
-    const pathTop = x < 565 ? 483 + x * 0.035 : 503 - (x - 565) * 0.033;
-    if (y > pathTop - 6 && y < pathTop + 70) return null;
-    return (
-      <path
-        key={i}
-        transform={`translate(${x} ${y})`}
-        fill={i % 3 === 0 ? '#c5d77b' : i % 3 === 1 ? '#769f54' : '#a6c65f'}
-        opacity={i % 3 === 1 ? 0.73 : 0.9}
-        d={i % 4 === 0 ? 'M0 2h4v4h4V0h3v6h4V3h3v6H0Z' : 'M0 3h4v3h4V0h3v8H0Z'}
-      />
-    );
-  });
+  const grassMarks: string[][] = [[], [], []];
+  for (let i = 0; i < 171; i++) {
+    const x = 6 + ((i * 137 + section * 89) % 1180);
+    const y = 356 + ((i * 31 + section * 37) % 326);
+    const pathTop = x < 565 ? 478 + x * 0.054 : 508 - (x - 565) * 0.038;
+    if (y > pathTop - 8 && y < pathTop + 76) continue;
+    const tuft =
+      i % 4 === 0 ? 'v2h4v3h4v-6h3v6h4v-3h3v6h-18Z' : 'h4v3h4v-5h3v8h-11Z';
+    grassMarks[i % 3]!.push(`M${x} ${y}${tuft}`);
+  }
 
-  const flowers = [
-    [36, 435],
-    [57, 445],
-    [221, 412],
-    [232, 422],
-    [398, 469],
-    [415, 458],
-    [716, 422],
-    [737, 408],
-    [988, 452],
-    [1006, 444],
-    [1096, 579],
-    [52, 602],
-    [66, 618],
-    [221, 640],
-    [234, 628],
-    [467, 592],
-    [479, 605],
-    [656, 649],
-    [669, 631],
-    [904, 607],
-    [919, 616],
-    [1054, 668],
-    [1069, 655],
-    [1152, 633],
-    [1170, 644],
-  ];
-
+  const bloomColors = ['#e8ae68', '#e6a2ac', '#fff0bf'];
+  const blooms: string[][] = [[], [], []];
+  const stems: string[] = [];
+  const centers: string[] = [];
+  for (const [index, [baseX, baseY]] of flowerPatches.entries()) {
+    const x = baseX + (section % 3) * (index % 2 === 0 ? 8 : -8);
+    for (const [dx, dy, size] of [
+      [0, 0, 4],
+      [14, -9, 3],
+      [26, 5, 3],
+    ] as const) {
+      const left = x + dx;
+      const top = baseY + dy;
+      stems.push(`M${left + size} ${top + size}h2v5h4v2h-6Z`);
+      blooms[(index + dx) % bloomColors.length]!.push(
+        `M${left + size - 1} ${top}h${size}v2h2v${size}h-2v2h-${size}v-2h-2v-${size}h2Z`,
+      );
+      centers.push(`M${left + size} ${top + 3}h2v2h-2Z`);
+    }
+  }
   return (
     <>
-      {tufts}
-      {flowers.map(([x, y], i) => (
-        <g key={i} transform={`translate(${x} ${y})`}>
-          <path fill="#64914d" d="M3 6h3v4h5v3H3Z" />
-          <path
-            fill={i % 4 === 0 ? '#eab169' : i % 4 === 2 ? '#e7a3a7' : '#f8ebbc'}
-            d="M2 0h5v2h2v5H0V2h2Z"
-          />
-          <path fill="#e0a94c" d="M3 2h3v3H3Z" />
-        </g>
+      {['#c5d77b', '#7fa453', '#a7c663'].map((color, index) => (
+        <path key={color} fill={color} d={grassMarks[index]?.join(' ')} />
       ))}
+      <path fill="#6b984e" d={stems.join(' ')} />
+      {bloomColors.map((color, index) => (
+        <path key={color} fill={color} d={blooms[index]?.join(' ')} />
+      ))}
+      <path fill="#e2ad55" d={centers.join(' ')} />
     </>
+  );
+}
+
+function Fern({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${scale})`}>
+      <path
+        fill="#68964f"
+        d="M17 24v-6h-7v-4H6v-5H1V5h8v3h6v5h4v-6h4V2h8v4h-4v6h-4v7h5v-4h5v-4h7v5h-5v5h-8v4H13Z"
+      />
+      <path
+        fill="#93b65b"
+        d="M4 6h5v3h5v3h-5V9H4zm20 1h3V4h3v3h-3v4h-3zm8 9h5v-3h3v3h-3v3h-5z"
+      />
+    </g>
   );
 }
 
@@ -168,7 +193,11 @@ function Stone({ x, y, scale = 1 }: { x: number; y: number; scale?: number }) {
   );
 }
 
-export function Landscape({ section }: { section: number }) {
+export const Landscape = memo(function Landscape({
+  section,
+}: {
+  section: number;
+}) {
   const sky = useId();
   const grass = useId();
   const path = useId();
@@ -225,6 +254,7 @@ export function Landscape({ section }: { section: number }) {
         <Cloud x={1017 - offset} y={155} scale={0.68} />
         <Cloud x={327 - offset} y={199} scale={0.58} />
       </g>
+      {section === 0 && <GardenBirds />}
       <path
         fill="#9ac2ab"
         d="M0 288h28v-15h39v-16h39v-15h56v-16h72v13h37v12h46v17h34v14h62v-14h50v-16h41v-17h51v-14h53v-13h78v13h42v16h45v17h42v12h30v15h62v-11h35v-16h45v-13h58v-13h61v15h49v17h32v19h40v80H0Z"
@@ -249,6 +279,14 @@ export function Landscape({ section }: { section: number }) {
       <Pine x={809 - offset} y={261} scale={0.95} />
       <Pine x={855 - offset} y={241} scale={1.24} dark />
       <Pine x={895 - offset} y={274} scale={0.8} />
+      <g opacity=".7">
+        <Pine x={222 + offset} y={272} scale={0.57} />
+        <Pine x={451 - offset} y={275} scale={0.73} />
+        <Pine x={489 - offset} y={286} scale={0.56} />
+        <Pine x={684 + offset} y={259} scale={0.7} />
+        <Pine x={724 + offset} y={268} scale={0.62} />
+        <Pine x={952 + offset} y={280} scale={0.55} />
+      </g>
       <Pine x={1163} y={259} scale={1.06} />
       <path
         fill="#a0bc62"
@@ -276,6 +314,9 @@ export function Landscape({ section }: { section: number }) {
       <Bush x={557 - offset} y={318} scale={1.05} />
       <Bush x={897 - offset} y={318} scale={1.17} />
       <Bush x={1108} y={343} scale={0.9} />
+      <Bush x={422 - offset} y={344} scale={0.74} />
+      <Bush x={748 + offset} y={327} scale={0.75} />
+      <Bush x={967 - offset} y={355} scale={0.65} />
 
       <path
         fill="#8ab059"
@@ -311,7 +352,18 @@ export function Landscape({ section }: { section: number }) {
         opacity=".75"
         d="M32 518h17v4H32zm68-16h9v3h-9zm88 2h14v4h-14zm106 5h8v4h-8zm67 15h22v4h-22zm124 9h10v3h-10zm101 9h20v4h-20zm90-3h9v3h-9zm111-19h15v3h-15zm83-13h21v4h-21zm91-5h9v4h-9zm124 10h19v3h-19zm74 6h13v4h-13z"
       />
+      {section === 0 && <GardenCottage />}
       <MeadowDetails section={section} />
+      <Fern x={80} y={423} scale={0.62} />
+      <Fern x={293 + offset} y={414} scale={0.72} />
+      <Fern x={531 - offset} y={443} scale={0.58} />
+      <Fern x={933 + offset} y={400} scale={0.68} />
+      <Fern x={205} y={579} scale={0.88} />
+      <Fern x={330 - offset} y={619} scale={0.71} />
+      <Fern x={591 + offset} y={644} scale={0.9} />
+      <Fern x={734} y={593} scale={0.72} />
+      <Fern x={1004 - offset} y={604} scale={0.8} />
+      <Fern x={1106} y={563} scale={0.74} />
       <Stone x={79} y={569} scale={0.72} />
       <Stone x={262} y={447} scale={0.8} />
       <Stone x={449} y={638} scale={0.65} />
@@ -319,10 +371,16 @@ export function Landscape({ section }: { section: number }) {
       <Stone x={799} y={596} scale={0.85} />
       <Stone x={1011} y={626} scale={1.03} />
       <Stone x={1136} y={448} scale={0.57} />
+      <Stone x={495 - offset} y={457} scale={0.45} />
+      <Stone x={931 + offset} y={609} scale={0.48} />
+      <Stone x={140} y={655} scale={0.64} />
+      {section === 0 && <GardenCat />}
       <Bush x={8} y={671} scale={1.15} />
       <Bush x={328} y={675} scale={0.96} />
+      <Bush x={596} y={683} scale={0.93} />
+      <Bush x={834} y={677} scale={0.9} />
       <Bush x={1017} y={672} scale={1.14} />
       <Bush x={1118} y={663} scale={1.13} />
     </svg>
   );
-}
+});
